@@ -1,5 +1,5 @@
 ## HeimerDinger ##
 
 ```
-This project involves a neural network, using a hybrid model for deep learning and izhikevich's biological plausibility .
+The goal of this project is to visualize and simulated the ant colony optimisation problem , and further our understanding of programming
 ```
