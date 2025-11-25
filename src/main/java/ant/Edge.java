@@ -1,3 +1,4 @@
+package ant;
 public class Edge{
 	private int phermone;
 	private int distance;
