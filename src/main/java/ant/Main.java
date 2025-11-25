@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Main{
 	public static void main(String[] args) throws FileNotFoundException{
 		HashMap<String, Node> nodeMap = new HashMap<>();
-		Scanner in = new Scanner(new File("resources/table.txt"));
+		Scanner in = new Scanner(new File("src/main/resources/table.txt"));
 
 		String[][] array2d = new String[7][8];
 		for(int j = 0; in.hasNext(); j++){
