@@ -1,3 +1,5 @@
+package ant;
+
 public class Path{
 	private Node node;
 	private Edge edge;
