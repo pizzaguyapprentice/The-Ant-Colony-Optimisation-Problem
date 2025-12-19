@@ -1,4 +1,6 @@
 package ant;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -48,9 +50,29 @@ public class Ant {
 
         //View how many neighbours are available to travel to
 
-        for(int potent = 0; potent < position.getNeighbours().size(); potent++){
+        //Create visibility for each available route, for now using the distance
+        for(int i = 0; i < position.getNeighbours().length; i++){
+            visibilityMetrics.set(i, (double)position.getNeighbour(i).getEdge().getDistance()); 
             System.out.println();
         }
+        //Calculate the probability so that all visibilityMetrics == 1
+
+        double temp = 0;
+        for(int i = 0; i < position.getNeighbours().length; i++){
+            temp += visibilityMetrics.get(i);
+        }
+        //Using BigDecimal for precision when rounding the temp
+        BigDecimal rounding = BigDecimal.valueOf(temp);
+        rounding = rounding.setScale(15, RoundingMode.HALF_UP);
+
+        if(rounding == BigDecimal.valueOf(1)){
+            System.out.println("Success, all visibilityMetrics are equal to 1 ");
+        }
+        else{
+            System.out.println("Failure, all visibilityMetrics are NOT equal to 1 ");
+        }
+
+        //
 
     }
 
