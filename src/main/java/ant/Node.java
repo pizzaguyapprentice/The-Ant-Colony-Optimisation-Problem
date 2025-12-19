@@ -2,9 +2,8 @@ package ant;
 import java.util.ArrayList;
 
 public class Node{
+
 	private ArrayList<Path> neighbours = new ArrayList<>(0);
-	private boolean hasFood;
-	private boolean hasColony;
 	private String name;
 
 	public Path getNeighbour(int i){
@@ -34,18 +33,6 @@ public class Node{
 	public void setNeighbours(ArrayList<Path> neighbours){
 		this.neighbours = neighbours;
 	}
-	public boolean isHasFood(){
-		return hasFood;
-	}
-	public void setHasFood(boolean hasFood){
-		this.hasFood = hasFood;
-	}
-	public boolean isHasColony(){
-		return hasColony;
-	}
-	public void setHasColony(boolean hasColony){
-		this.hasColony = hasColony;
-	}
 
 	public String getName() {
 		return name;
@@ -54,4 +41,12 @@ public class Node{
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	boolean isHomeNode() {
+        return false;
+    }
+
+	 boolean isFoodNode() {
+        return false;
+    }
 }
