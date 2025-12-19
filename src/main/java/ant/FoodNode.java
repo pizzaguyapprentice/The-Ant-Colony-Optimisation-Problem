@@ -3,7 +3,7 @@ package ant;
 public class FoodNode extends Node{
     
     public FoodNode(String name) {
-        this.setName(name);
+        super(name);
     }
 
     boolean isFoodNode() {

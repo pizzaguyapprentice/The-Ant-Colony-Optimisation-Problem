@@ -6,6 +6,10 @@ public class Node{
 	private ArrayList<Path> neighbours = new ArrayList<>(0);
 	private String name;
 
+	public Node(String name){
+		this.name = name;
+	}
+
 	public Path getNeighbour(int i){
 		return neighbours.get(i);
 	}

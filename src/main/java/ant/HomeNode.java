@@ -3,7 +3,7 @@ package ant;
 public class HomeNode extends Node{
 
     public HomeNode(String name) {
-        this.setName(name);
+        super(name);
     }
 
     boolean isHomeNode() {
