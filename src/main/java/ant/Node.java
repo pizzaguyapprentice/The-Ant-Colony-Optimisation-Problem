@@ -45,12 +45,4 @@ public class Node{
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	boolean isHomeNode() {
-        return false;
-    }
-
-	 boolean isFoodNode() {
-        return false;
-    }
 }
