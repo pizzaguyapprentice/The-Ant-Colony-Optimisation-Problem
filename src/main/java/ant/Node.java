@@ -31,9 +31,10 @@ public class Node{
 		return false;
 	}
 
-	public ArrayList<Path> getNeighbours(){
-		return neighbours;
+	public Path[] getNeighbours(){
+		return (Path[]) neighbours.toArray();
 	}
+
 	public void setNeighbours(ArrayList<Path> neighbours){
 		this.neighbours = neighbours;
 	}
