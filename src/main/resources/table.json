@@ -1,0 +1,30 @@
+{
+	"A": {
+		"Adjecency": [0, 1, 1, 1, 0, 0, 0],
+		"Distance": [1, 2]
+	},
+	"B": {
+		"Adjecency": [1, 0, 1, 0, 0, 1, 0],
+		"Distance": [1, 2]
+	},
+	"C": {
+		"Adjecency": [1, 1, 0, 0, 1, 1, 0],
+		"Distance": [1, 2]
+	},
+	"D": {
+		"Adjecency": [1, 0, 0, 0, 0, 1, 0],
+		"Distance": [1, 2]
+	},
+	"E": {
+		"Adjecency": [0, 0, 1, 0, 0, 1, 1],
+		"Distance": [1, 2]
+	},
+	"F": {
+		"Adjecency": [0, 1, 1, 1, 1, 0, 1],
+		"Distance": [1, 2]
+	},
+	"G": {
+		"Adjecency": [0, 0, 0, 0, 1, 1, 0],
+		"Distance": [1, 2]
+	}
+}
