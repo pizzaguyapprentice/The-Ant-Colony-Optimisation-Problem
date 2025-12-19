@@ -7,14 +7,23 @@ import java.util.Scanner;
 
 public class WorldCreator{
 	public static Node createWorld() throws FileNotFoundException{
+		// Gets The Adjecency Table File
 		File adjecencyTable = new File("src/main/resources/table.txt");
+
+		// Hashmap To Store The Nodes Temporarly
 		HashMap<String, Node> nodeMap = new HashMap<>();
+
+		// Scanner To Read File
 		Scanner in = new Scanner(adjecencyTable);
 
+		// Array To Store Adjecency Matrix
 		ArrayList<String[]> adjecencyMatrix = new ArrayList<String[]>(0);
 		
+		// Integer To Check If The Length Of The Table Is Consistant
 		int adjecencyListLength = 0;
 
+		// For loop To Read The File And Output To Array
+		// And Hashmap. Creates The Node
 		for(int i = 0; in.hasNextLine(); i++){
 			String[] nodeText = in.nextLine().split("\t");
 			adjecencyMatrix.add(nodeText);
@@ -41,6 +50,7 @@ public class WorldCreator{
 
 		in.close();
 
+		// For Loop To Create The Adjecency Pairs
 		for(int i = 0; i < adjecencyMatrix.size(); i++){
 			for (int j = 2 + i; j < adjecencyMatrix.size() + 1; j++) {
 				if(adjecencyMatrix.get(i)[j].equals("1")){
@@ -55,6 +65,7 @@ public class WorldCreator{
 			}
 		}
 
+		// For Loop To Print Out Generated Graph
 		for(int i = 0; i < adjecencyMatrix.size(); i++){
 			String nodeType;
 
@@ -67,7 +78,7 @@ public class WorldCreator{
 			else{
 				nodeType = "Node";
 			}
-			
+
 			System.out.println(nodeType + ": " + adjecencyMatrix.get(i)[0]);
 
 			for (Path strings : nodeMap.get(adjecencyMatrix.get(i)[0]).getNeighbours()){
