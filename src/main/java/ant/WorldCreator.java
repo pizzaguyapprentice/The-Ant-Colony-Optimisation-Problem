@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 public class WorldCreator{
 	public static Node createWorld() throws FileNotFoundException{
 		// Gets The Adjecency Table File
@@ -15,6 +19,17 @@ public class WorldCreator{
 
 		// Scanner To Read File
 		Scanner in = new Scanner(adjecencyTable);
+
+
+		// Gson gson = new Gson();
+		// JsonElement test = gson.fromJson("src/main/resources/table.json", JsonElement.class);
+
+		// System.out.println("JSON TEST: " + test.toString());
+
+
+
+
+
 
 		// Array To Store Adjecency Matrix
 		ArrayList<String[]> adjecencyMatrix = new ArrayList<String[]>(0);
@@ -81,12 +96,12 @@ public class WorldCreator{
 
 			System.out.println(nodeType + ": " + adjecencyMatrix.get(i)[0]);
 
-			for (Path strings : nodeMap.get(adjecencyMatrix.get(i)[0]).getNeighbours()){
+			for(Path strings : nodeMap.get(adjecencyMatrix.get(i)[0]).getNeighbours()){
 				System.out.println("\tNeighbour: " + strings.getNode().getName());
 			}
 			System.out.println();
 		}
 		
-		return nodeMap.get("A");
+		return (HomeNode) nodeMap.get("A");
 	}
 }
