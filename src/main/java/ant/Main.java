@@ -8,7 +8,10 @@ public class Main{
 
 	
 		Ant ant = new Ant(WorldCreator.createWorld());
+
+		
 		System.out.println(ant.getPosition().getName());
+
 		ant.nextAction();
 			
 	}

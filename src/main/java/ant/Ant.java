@@ -6,8 +6,7 @@ import java.util.Random;
 
 public class Ant {
     private HomeNode homeNode;
-
-    private Node position = homeNode;
+    private Node position;
     private Node lastPosition;
     private boolean hasFood = false;
 
@@ -56,9 +55,10 @@ public class Ant {
 
         //Create visibility for each available route, for now using the distance
         for(int i = 0; i < position.getNeighbours().length; i++){
-            visibilityMetrics.set(i, (double)position.getNeighbour(i).getEdge().getDistance()); 
+            visibilityMetrics.add(i, (double)position.getNeighbour(i).getEdge().getDistance()); 
             System.out.println("Visibility metric: "+visibilityMetrics.get(i));
         }
+        
         //Calculate the probability so that all visibilityMetrics == 1
 
         double temp = 0;
