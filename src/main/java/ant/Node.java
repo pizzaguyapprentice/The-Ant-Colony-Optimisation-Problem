@@ -5,6 +5,7 @@ public class Node{
 
 	private ArrayList<Path> neighbours = new ArrayList<>(0);
 	private String name;
+	private boolean isFoodNode = false;
 
 	public Node(String name){
 		this.name = name;
@@ -39,11 +40,28 @@ public class Node{
 		this.neighbours = neighbours;
 	}
 
+	public boolean hasNeighbour(String name){
+		for(Path path : neighbours){
+			if(name.equals(path.getNode().getName())){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean isFood() {
+		return isFoodNode;
+	}
+
+	public void setFood(boolean bool) {
+		this.isFoodNode = bool;
 	}
 }
