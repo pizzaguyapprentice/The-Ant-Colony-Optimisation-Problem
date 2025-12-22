@@ -96,6 +96,13 @@ public class Ant {
         rounding = rounding.setScale(16, RoundingMode.HALF_UP);
 
         System.out.println("Rounded number:" + rounding);
+        
+        if(rounding.compareTo(BigDecimal.ONE) == 0){
+            System.out.println("Rounded number equals 1");
+        }
+        else{
+            System.out.println("Rounded number does not equal 1");
+        }
 
 
     }
