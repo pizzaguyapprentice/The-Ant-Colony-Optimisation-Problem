@@ -10,7 +10,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class WorldCreator{
-	public static Node createWorld() throws FileNotFoundException{
+	public static HomeNode createWorld() throws FileNotFoundException{
 		// Gets The Adjecency Table File
 		File adjecencyTable = new File("src/main/resources/table.txt");
 
@@ -21,10 +21,10 @@ public class WorldCreator{
 		Scanner in = new Scanner(adjecencyTable);
 
 
-		// Gson gson = new Gson();
-		// JsonElement test = gson.fromJson("src/main/resources/table.json", JsonElement.class);
+		Gson gson = new Gson();
+		JsonElement test = gson.fromJson("src/main/resources/table.json", JsonObject.class);
 
-		// System.out.println("JSON TEST: " + test.toString());
+		System.out.println("JSON TEST: " + test.toString());
 
 
 
