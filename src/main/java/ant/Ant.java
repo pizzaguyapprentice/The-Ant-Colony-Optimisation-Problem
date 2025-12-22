@@ -60,7 +60,7 @@ public class Ant {
 
         //Generate a random double from 0.0 to 1.0
         Random random = new Random();
-        double decision = random.nextDouble();
+        double rollfordecision = random.nextDouble();
 
         //Here we will weigh out the visibility metric between all possible routes.
 
@@ -85,9 +85,18 @@ public class Ant {
 
         double totaldividedvisibility = 0.0;
         double tempdividedvisibility = 0.0;
+        
+
+        //TEMPORARY ARRAYLIST FOR THE ACTUAL DIVIDED DISTANCES + VISIBILITY METRICS
+
+        ArrayList<Double> tempdividedvisibilityarray = new ArrayList<>();
+        
+
         for(int i = 0; i < distancestemp.size(); i++){
             tempdividedvisibility = distancestemp.get(i)/temptotal;
             totaldividedvisibility += tempdividedvisibility;
+            tempdividedvisibilityarray.add(tempdividedvisibility);
+
             System.out.println("Actual ratio visibility without phermone: "+tempdividedvisibility);
         }
 
@@ -102,6 +111,21 @@ public class Ant {
         }
         else{
             System.out.println("Rounded number does not equal 1");
+        }
+
+        Double incrementedDecision = tempdividedvisibilityarray.get(0);
+
+        System.out.println("The decision: "+ rollfordecision);
+        for(int i = 0; i < tempdividedvisibilityarray.size(); i++){
+            
+            if(rollfordecision <= incrementedDecision){
+                System.out.println("You got it!");
+                break;
+            }
+            else{
+                System.out.println("You did NOT get it...");
+            }
+            incrementedDecision += tempdividedvisibilityarray.get(i);
         }
 
 
