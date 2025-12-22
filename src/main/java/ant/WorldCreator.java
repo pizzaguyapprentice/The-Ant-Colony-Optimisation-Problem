@@ -22,9 +22,9 @@ public class WorldCreator{
 
 
 		Gson gson = new Gson();
-		JsonElement test = gson.fromJson("src/main/resources/table.json", JsonObject.class);
+		//JsonElement test = gson.fromJson("src/main/resources/table.json", JsonObject.class);
 
-		System.out.println("JSON TEST: " + test.toString());
+		//System.out.println("JSON TEST: " + test.toString());
 
 
 

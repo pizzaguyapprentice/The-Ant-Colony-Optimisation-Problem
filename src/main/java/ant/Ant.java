@@ -14,9 +14,7 @@ public class Ant {
     private ArrayList<Double> visibilityMetrics = new ArrayList<>();
 
     public Ant(HomeNode homeNode){
-        this.homeNode = homeNode;
         this.position = homeNode;
-        this.lastPosition = null;
     }
 
     Node getPosition(){
@@ -59,7 +57,7 @@ public class Ant {
         //Create visibility for each available route, for now using the distance
         for(int i = 0; i < position.getNeighbours().length; i++){
             visibilityMetrics.set(i, (double)position.getNeighbour(i).getEdge().getDistance()); 
-            System.out.println();
+            System.out.println("Visibility metric: "+visibilityMetrics.get(i));
         }
         //Calculate the probability so that all visibilityMetrics == 1
 
