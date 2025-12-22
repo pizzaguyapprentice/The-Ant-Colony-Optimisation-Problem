@@ -16,6 +16,12 @@ public class Ant {
         this.position = homeNode;
     }
 
+
+    //temporary dogshit code
+    void setVisibilityMetrics(int i){
+        visibilityMetrics.add(i, (double)position.getNeighbour(i).getEdge().getDistance()); 
+    }
+
     Node getPosition(){
         return position;
     }
@@ -45,6 +51,13 @@ public class Ant {
     }
 
     void nextAction(){
+
+        ArrayList<Double> distancestemp = new ArrayList<Double>();
+        distancestemp.add(0,10.0);
+        distancestemp.add(0,7.0);
+        distancestemp.add(0,12.0);
+
+
         //Generate a random double from 0.0 to 1.0
         Random random = new Random();
         double decision = random.nextDouble();
@@ -55,34 +68,36 @@ public class Ant {
 
         //Create visibility for each available route, for now using the distance
         for(int i = 0; i < position.getNeighbours().length; i++){
-            visibilityMetrics.add(i, (double)position.getNeighbour(i).getEdge().getDistance()); 
-            System.out.println("Visibility metric: "+visibilityMetrics.get(i));
+            setVisibilityMetrics(i);
+            //System.out.println("Visibility metric: "+visibilityMetrics.get(i));
         }
-        
+
         //Calculate the probability so that all visibilityMetrics == 1
 
-        double temp = 0;
+
+
+        double temptotal = 0;
         for(int i = 0; i < position.getNeighbours().length; i++){
-            temp += visibilityMetrics.get(i);
+            //temp += visibilityMetrics.get(i);
+            temptotal += distancestemp.get(i);
+            System.out.println("Temporary distance: "+distancestemp.get(i));
         }
+
+        double totaldividedvisibility = 0.0;
+        double tempdividedvisibility = 0.0;
+        for(int i = 0; i < distancestemp.size(); i++){
+            tempdividedvisibility = distancestemp.get(i)/temptotal;
+            totaldividedvisibility += tempdividedvisibility;
+            System.out.println("Actual ratio visibility without phermone: "+tempdividedvisibility);
+        }
+
         //Using BigDecimal for precision when rounding the temp
-        BigDecimal rounding = BigDecimal.valueOf(temp);
-        rounding = rounding.setScale(15, RoundingMode.HALF_UP);
+        BigDecimal rounding = BigDecimal.valueOf(totaldividedvisibility);
+        rounding = rounding.setScale(16, RoundingMode.HALF_UP);
 
-        if(rounding == BigDecimal.valueOf(1)){
-            System.out.println("Success, all visibilityMetrics are equal to 1 ");
-        }
-        else{
-            System.out.println("Failure, all visibilityMetrics are NOT equal to 1 ");
-        }
+        System.out.println("Rounded number:" + rounding);
 
-        //
 
     }
-
-
-    
-
-    
 
 }
