@@ -32,7 +32,7 @@ public class Node{
 	}
 
 	public Path[] getNeighbours(){
-		return (Path[]) neighbours.toArray();
+		return neighbours.toArray(new Path[0]);
 	}
 
 	public void setNeighbours(ArrayList<Path> neighbours){
