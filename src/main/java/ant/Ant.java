@@ -112,14 +112,26 @@ public class Ant {
         // Decision made based on the rolled number and the visibility metrics
         Double incrementedDecision = 0.00;
 
+
+        
         System.out.println("The decision: "+ rollForDecision);
-        for(int i = 0; i < tempdividedvisibilityarray.size(); i++){
+
+        int indexOfNextPosition;
+        for(int i = 0; i < position.getNeighbours().length; i++){
             // testing temp variable
             //double tempcheck = 0.99;
             // decide if the roll is less than or equal to the incremented decision
             incrementedDecision += tempdividedvisibilityarray.get(i);
             if(rollForDecision <= incrementedDecision){
                 System.out.println("You got it!");
+                System.out.println("Current position: " + position.getName());
+                lastPosition = position;
+
+                System.out.println("Current index: " + i);
+                
+                System.out.println("Moving onto: " + position.getNeighbour(i).getNode().getName());
+                position = position.getNeighbour(i).getNode();
+                
                 break;
             }
             else{
