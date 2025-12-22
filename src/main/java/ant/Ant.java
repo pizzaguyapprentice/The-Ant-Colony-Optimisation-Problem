@@ -13,11 +13,17 @@ public class Ant {
 
     private ArrayList<Double> visibilityMetrics = new ArrayList<>();
 
+    public Ant(HomeNode homeNode){
+        this.homeNode = homeNode;
+        this.position = homeNode;
+        this.lastPosition = null;
+    }
+
     Node getPosition(){
         return position;
     }
     void setPosition(Node position){
-        position = this.position;
+      this.position = position;
     }
 
     Node getLastPosition(){
@@ -25,7 +31,7 @@ public class Ant {
     }
 
     void setLastPosition(Node lastPosition){
-        lastPosition = this.lastPosition;
+       this.lastPosition = lastPosition; 
     }
 
     boolean hasFood(){
@@ -38,7 +44,7 @@ public class Ant {
     }
 
     void setHasFood(boolean hasFood){
-        hasFood = this.hasFood;
+      this.hasFood = hasFood;
     }
 
     void nextAction(){
