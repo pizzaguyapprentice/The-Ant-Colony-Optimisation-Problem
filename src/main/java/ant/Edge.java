@@ -1,23 +1,24 @@
 package ant;
 public class Edge{
-	private double phermone;
+	private String name;
+	private double pheromone;
 	private double distance;
 
 	public Edge(double distance){
 		this.distance = distance;
-		this.phermone = 1;
+		this.pheromone = 1;
 	}
 
-	public Edge(double distance, double phermone){
+	public Edge(double distance, double pheromone){
 		this.distance = distance;
-		this.phermone = phermone;
+		this.pheromone = pheromone;
 	}
 	
-	public double getPhermone() {
-		return phermone;
+	public double getPheromone() {
+		return pheromone;
 	}
-	public void setPhermone(double phermone) {
-		this.phermone = phermone;
+	public void setPheromone(double pheromone) {
+		this.pheromone = pheromone;
 	}
 	public double getDistance() {
 		return distance;
@@ -25,7 +26,18 @@ public class Edge{
 	public void setDistance(double distance) {
 		this.distance = distance;
 	}
-	public void addPhermone(double phermone) {
-		this.phermone = this.phermone + phermone;
+	public void addPheromone(double pheromone) {
+		this.pheromone = this.pheromone + pheromone;
+	}
+	public void removePheromone(double pheromone) {
+		this.pheromone = this.pheromone - pheromone;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

@@ -7,13 +7,15 @@ import java.util.HashMap;
 
 import com.google.gson.stream.JsonReader;
 
-public class WorldCreator{
+public class World{
+
+	private static HashMap<String, Edge> edgeMap = new HashMap<>();
+
 	public static HomeNode createWorld() throws IOException{
 		// Gets The Adjacency Table File
 		File adjacencyTable = new File("src/main/resources/table.json");
 
-		// Hashmap To Store The Nodes Temporarly
-		HashMap<String, Node> nodeMap = new HashMap<>();;
+		HashMap<String, Node> nodeMap = new HashMap<>();
 
 		// Readers To Create A JsonReader To Read The Json Table
 		FileReader freader = new FileReader(adjacencyTable);
@@ -80,6 +82,8 @@ public class WorldCreator{
 				Path path2 = new Path(node, edge);
 				node.addNeighbour(path1);
 				neighbourNode.addNeighbour(path2);
+				edge.setName((node.getName() + neighbourName).toLowerCase());
+				edgeMap.put((node.getName() + neighbourName).toLowerCase(), edge);
 			}
 		}
 
@@ -108,5 +112,15 @@ public class WorldCreator{
 		}
 		
 		return (HomeNode) nodeMap.get("A");
+	}
+
+	public static void dissipatePheromone(double dissipationRate){
+		for(String edgeName: edgeMap.keySet()){
+			edgeMap.get(edgeName).removePheromone(dissipationRate);
+			if(edgeMap.get(edgeName).getPheromone() <= 0){
+				edgeMap.get(edgeName).setPheromone(0.01);
+			}
+			System.out.println(edgeMap.get(edgeName).getPheromone());
+		}
 	}
 }

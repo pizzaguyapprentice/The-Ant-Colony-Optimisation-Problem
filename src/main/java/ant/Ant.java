@@ -9,7 +9,8 @@ public class Ant {
     // private HomeNode homeNode;
     private Node position;
     private Node lastPosition;
-    private boolean hasFood = false;
+    private boolean collectedFood = false;
+	private ArrayList<Edge> edgesTraversed = new ArrayList<>(0);
 
     public Ant(HomeNode homeNode){
         this.position = homeNode;
@@ -30,8 +31,8 @@ public class Ant {
        this.lastPosition = lastPosition; 
     }
 
-    boolean hasFood(){
-        if(!hasFood){
+    boolean collectedFood(){
+        if(!collectedFood){
             return false;
         }
         else{
@@ -39,35 +40,39 @@ public class Ant {
         }
     }
 
-    void setHasFood(boolean hasFood){
-      this.hasFood = hasFood;
+    void setCollectedFood(boolean collectedFood){
+      this.collectedFood = collectedFood;
     }
 
-    void nextAction() throws FileNotFoundException {
+	public Edge[] getEdgesTraversed(){
+        return edgesTraversed.toArray(new Edge[0]);
+    }
+
+    boolean nextAction() throws FileNotFoundException {
         // Distance holder stores full values for the distances of each path e.g 10 , 15 , 20
         // These values will then be used to calculate the visibility metrics for each path
         // Position is a local variable that holds the current node the ant is on
         // Reads from position.getNeighbours() to acquire the paths, its edges and their distances
         ArrayList<Double> distanceHolder = new ArrayList<Double>(0);
-		ArrayList<Double> phermoneHolder = new ArrayList<Double>(0);
+		ArrayList<Double> pheromoneHolder = new ArrayList<Double>(0);
         for(int i = 0; i < position.getNeighbours().length; i++){
             distanceHolder.add(position.getNeighbour(i).getEdge().getDistance());
-			phermoneHolder.add(position.getNeighbour(i).getEdge().getPhermone());
+			pheromoneHolder.add(position.getNeighbour(i).getEdge().getPheromone());
         }
 
 		System.out.println();
 
         double visibilityTotal = 0;
         ArrayList<Double> visibilityArray = new ArrayList<>();
-        // path visibility without phermone influence
+        // path visibility without pheromone influence
         for(int i = 0; i < distanceHolder.size(); i++){
             double heuristic = 1/distanceHolder.get(i);
 			heuristic = Math.pow(heuristic, Main.distanceImportance);
 
-			double phermone = phermoneHolder.get(i);
-			phermone = Math.pow(phermone, Main.phermoneImportance);
+			double pheromone = pheromoneHolder.get(i);
+			pheromone = Math.pow(pheromone, Main.pheromoneImportance);
 
-			double visibility = phermone * heuristic;
+			double visibility = pheromone * heuristic;
             visibilityTotal += visibility;
             visibilityArray.add(visibility);
 
@@ -122,7 +127,14 @@ public class Ant {
                 System.out.println("Current index: " + i);
                 
                 System.out.println("Moving onto: " + position.getNeighbour(i).getNode().getName());
+				edgesTraversed.add(position.getNeighbour(i).getEdge());
                 position = position.getNeighbour(i).getNode();
+				if(position.isFood()){
+					collectedFood = true;
+				}
+				if(position instanceof HomeNode && collectedFood){
+					return true;
+				}
                 
                 break;
             }
@@ -130,5 +142,7 @@ public class Ant {
                 System.out.println("You did NOT get it...");
             }
         }
+		System.out.println("Colected Food: " + collectedFood);
+		return false;
     }
 }
