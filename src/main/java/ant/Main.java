@@ -4,6 +4,8 @@ import java.io.IOException;
 
 
 public class Main{
+	public static final int distanceImportance = 2;
+	public static final int phermoneImportance = 2;
 	public static void main(String[] args) throws IOException{
 
 	

@@ -47,9 +47,6 @@ public class WorldCreator{
 			jreader.endArray();
 			jreader.endObject();
 
-			// adjacencyMatrix.add(adjacencyList.toArray(new String[0]));
-			// distanceMatrix.add(distanceList.toArray(new Integer[0]));
-
 			Node node = nodeMap.get(name);
 			if(i == 0){
 				node = new HomeNode(name);
@@ -105,7 +102,7 @@ public class WorldCreator{
 			System.out.println(nodeType + ": " + nodeName);
 
 			for(Path strings : nodeMap.get(nodeName).getNeighbours()){
-				System.out.printf("\tNeighbour: %s\tDistance: %d\n",strings.getNode().getName(), strings.getEdge().getDistance());
+				System.out.printf("\tNeighbour: %s\tDistance: %f\n",strings.getNode().getName(), strings.getEdge().getDistance());
 			}
 			System.out.println();
 		}

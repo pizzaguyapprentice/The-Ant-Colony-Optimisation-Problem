@@ -1,31 +1,31 @@
 package ant;
 public class Edge{
-	private int phermone;
-	private int distance;
+	private double phermone;
+	private double distance;
 
-	public Edge(int distance){
+	public Edge(double distance){
 		this.distance = distance;
-		this.phermone = 0;
+		this.phermone = 1;
 	}
 
-	public Edge(int distance, int phermone){
+	public Edge(double distance, double phermone){
 		this.distance = distance;
 		this.phermone = phermone;
 	}
 	
-	public int getPhermone() {
+	public double getPhermone() {
 		return phermone;
 	}
-	public void setPhermone(int phermone) {
+	public void setPhermone(double phermone) {
 		this.phermone = phermone;
 	}
-	public int getDistance() {
+	public double getDistance() {
 		return distance;
 	}
-	public void setDistance(int distance) {
+	public void setDistance(double distance) {
 		this.distance = distance;
 	}
-	public void addPhermone(int phermone) {
+	public void addPhermone(double phermone) {
 		this.phermone = this.phermone + phermone;
 	}
 }

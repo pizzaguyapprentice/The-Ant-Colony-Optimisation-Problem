@@ -6,21 +6,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Ant {
-    private HomeNode homeNode;
+    // private HomeNode homeNode;
     private Node position;
     private Node lastPosition;
     private boolean hasFood = false;
 
-    private ArrayList<Double> visibilityMetrics = new ArrayList<>();
-
     public Ant(HomeNode homeNode){
         this.position = homeNode;
-    }
-
-
-
-    void setVisibilityMetrics(int i){
-        visibilityMetrics.add(i, (double)position.getNeighbour(i).getEdge().getDistance()); 
     }
 
     Node getPosition(){
@@ -56,53 +48,52 @@ public class Ant {
         // These values will then be used to calculate the visibility metrics for each path
         // Position is a local variable that holds the current node the ant is on
         // Reads from position.getNeighbours() to acquire the paths, its edges and their distances
-        ArrayList<Double> distanceHolder = new ArrayList<Double>();
+        ArrayList<Double> distanceHolder = new ArrayList<Double>(0);
+		ArrayList<Double> phermoneHolder = new ArrayList<Double>(0);
         for(int i = 0; i < position.getNeighbours().length; i++){
-            distanceHolder.add(i, (double)position.getNeighbour(i).getEdge().getDistance());
+            distanceHolder.add(position.getNeighbour(i).getEdge().getDistance());
+			phermoneHolder.add(position.getNeighbour(i).getEdge().getPhermone());
         }
 
-        // Generate a random double from 0.0 to 1.0
-        Random random = new Random();
-        double rollForDecision = random.nextDouble();
+		System.out.println();
 
-        // Calculate visibility metric based on distance and pheromone levels
-        // Phermone not yet implemented
-        for(int i = 0; i < position.getNeighbours().length; i++){
-            setVisibilityMetrics(i);
-            //System.out.println("Visibility metric: "+visibilityMetrics.get(i));
-        }
-
-        // Calculate the probability so that all visibilityMetrics == 1
-        // for(int i = 0; i < position.getNeighbours().length; i++){
-        //     //temp += visibilityMetrics.get(i);
-        //     temptotal += distanceHolder.get(i);
-        //     System.out.println("Distance: "+distanceHolder.get(i));
-        // }
-
-        double totaldividedvisibility = 0.0;
-        
-
-        // TEMPORARY ARRAYLIST FOR THE ACTUAL DIVIDED DISTANCES + VISIBILITY METRICS
-
-        ArrayList<Double> tempdividedvisibilityarray = new ArrayList<>();
+        double visibilityTotal = 0;
+        ArrayList<Double> visibilityArray = new ArrayList<>();
         // path visibility without phermone influence
         for(int i = 0; i < distanceHolder.size(); i++){
-            double tempdividedvisibility = 1/distanceHolder.get(i);
-            totaldividedvisibility += tempdividedvisibility;
-            tempdividedvisibilityarray.add(tempdividedvisibility);
+            double heuristic = 1/distanceHolder.get(i);
+			heuristic = Math.pow(heuristic, Main.distanceImportance);
 
-            System.out.println("Actual ratio visibility without phermone: "+ tempdividedvisibility);
+			double phermone = phermoneHolder.get(i);
+			phermone = Math.pow(phermone, Main.phermoneImportance);
+
+			double visibility = phermone * heuristic;
+            visibilityTotal += visibility;
+            visibilityArray.add(visibility);
+
+            System.out.println("Visibility: " + visibility);
         }
-		double total = 0;
-		for (Double double1 : tempdividedvisibilityarray) {
-			total += double1/totaldividedvisibility;
+
+		System.out.println();
+
+		double probabilityTotal = 0;
+		ArrayList<Double> pathProbabilityArray = new ArrayList<>(0);
+		for (int i = 0; i < visibilityArray.size(); i++) {
+			double visibility = visibilityArray.get(i);
+			double probability = visibility/visibilityTotal;
+
+			pathProbabilityArray.add(probability);
+			probabilityTotal += probability;
+			System.out.println("Path Probability: " + probability);
 		}
 
+		System.out.println();
+
         // Using BigDecimal for precision when rounding the temp
-        BigDecimal rounding = BigDecimal.valueOf(total);
+        BigDecimal rounding = BigDecimal.valueOf(probabilityTotal);
         rounding = rounding.setScale(16, RoundingMode.HALF_UP);
 
-        System.out.println("Rounded number:" + rounding);
+        System.out.println("Rounded number: " + rounding);
         
         if(rounding.compareTo(BigDecimal.ONE) == 0){
             System.out.println("Rounded number equals 1");
@@ -111,19 +102,19 @@ public class Ant {
             System.out.println("Rounded number does not equal 1");
         }
         // Decision made based on the rolled number and the visibility metrics
-        Double incrementedDecision = 0.00;
 
+		// Generate a random double from 0.0 to 1.0
+		double randomNumber = new Random().nextDouble();
 
-        
-        System.out.println("The decision: "+ rollForDecision);
+        double incrementedDecision = 0;
+        System.out.println("The decision: "+ randomNumber);
 
-        int indexOfNextPosition;
         for(int i = 0; i < position.getNeighbours().length; i++){
             // testing temp variable
-            //double tempcheck = 0.99;
+            // double tempcheck = 0.99;
             // decide if the roll is less than or equal to the incremented decision
-            incrementedDecision += tempdividedvisibilityarray.get(i) / totaldividedvisibility;
-            if(rollForDecision <= incrementedDecision){
+            incrementedDecision += pathProbabilityArray.get(i);
+            if(randomNumber <= incrementedDecision){
                 System.out.println("You got it!");
                 System.out.println("Current position: " + position.getName());
                 lastPosition = position;
