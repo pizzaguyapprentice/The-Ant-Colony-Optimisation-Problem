@@ -73,32 +73,33 @@ public class Ant {
         }
 
         // Calculate the probability so that all visibilityMetrics == 1
-        double temptotal = 0;
-        for(int i = 0; i < position.getNeighbours().length; i++){
-            //temp += visibilityMetrics.get(i);
-            temptotal += distanceHolder.get(i);
-            System.out.println("Temporary distance: "+distanceHolder.get(i));
-        }
+        // for(int i = 0; i < position.getNeighbours().length; i++){
+        //     //temp += visibilityMetrics.get(i);
+        //     temptotal += distanceHolder.get(i);
+        //     System.out.println("Distance: "+distanceHolder.get(i));
+        // }
 
         double totaldividedvisibility = 0.0;
-        double tempdividedvisibility = 0.0;
         
 
         // TEMPORARY ARRAYLIST FOR THE ACTUAL DIVIDED DISTANCES + VISIBILITY METRICS
 
         ArrayList<Double> tempdividedvisibilityarray = new ArrayList<>();
-        
         // path visibility without phermone influence
         for(int i = 0; i < distanceHolder.size(); i++){
-            tempdividedvisibility = distanceHolder.get(i)/temptotal;
+            double tempdividedvisibility = 1/distanceHolder.get(i);
             totaldividedvisibility += tempdividedvisibility;
             tempdividedvisibilityarray.add(tempdividedvisibility);
 
             System.out.println("Actual ratio visibility without phermone: "+ tempdividedvisibility);
         }
+		double total = 0;
+		for (Double double1 : tempdividedvisibilityarray) {
+			total += double1/totaldividedvisibility;
+		}
 
         // Using BigDecimal for precision when rounding the temp
-        BigDecimal rounding = BigDecimal.valueOf(totaldividedvisibility);
+        BigDecimal rounding = BigDecimal.valueOf(total);
         rounding = rounding.setScale(16, RoundingMode.HALF_UP);
 
         System.out.println("Rounded number:" + rounding);
@@ -121,7 +122,7 @@ public class Ant {
             // testing temp variable
             //double tempcheck = 0.99;
             // decide if the roll is less than or equal to the incremented decision
-            incrementedDecision += tempdividedvisibilityarray.get(i);
+            incrementedDecision += tempdividedvisibilityarray.get(i) / totaldividedvisibility;
             if(rollForDecision <= incrementedDecision){
                 System.out.println("You got it!");
                 System.out.println("Current position: " + position.getName());
@@ -137,10 +138,6 @@ public class Ant {
             else{
                 System.out.println("You did NOT get it...");
             }
-
         }
-
-
     }
-
 }
