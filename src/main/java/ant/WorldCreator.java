@@ -78,8 +78,7 @@ public class WorldCreator{
 					neighbourNode = new Node(neighbourName);
 					nodeMap.put(neighbourName, neighbourNode);
 				}
-				Edge edge = new Edge();
-				edge.setDistance(distanceList.get(j));
+				Edge edge = new Edge(distanceList.get(j));
 				Path path1 = new Path(neighbourNode, edge);
 				Path path2 = new Path(node, edge);
 				node.addNeighbour(path1);
