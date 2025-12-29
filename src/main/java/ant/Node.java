@@ -23,6 +23,10 @@ public class Node{
 		neighbours.add(path);
 	}
 
+	public void removeNeighbour(int i){
+		neighbours.remove(i);
+	}
+
 	public boolean hasNeighbour(Node node){
 		for(Path path : neighbours){
 			if(path.getNode() == node){

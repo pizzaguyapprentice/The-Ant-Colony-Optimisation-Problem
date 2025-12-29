@@ -77,7 +77,14 @@ public class Ant {
     }
 
     public void setParameters(ArrayList<Double> distanceHolder, ArrayList<Double> pheromoneHolder){
-        for(int i = 0; i < position.getNeighbours().length; i++){
+
+        
+        for(int i = 0; i < position.getNeighbours().length-1; i++){
+
+            if(position.getNeighbour(i).getNode() == lastPosition){
+                position.removeNeighbour(i);
+            }
+
             distanceHolder.add(position.getNeighbour(i).getEdge().getDistance());
 			pheromoneHolder.add(position.getNeighbour(i).getEdge().getPheromone());
         }
