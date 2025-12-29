@@ -1,7 +1,5 @@
 package ant;
 import java.io.FileNotFoundException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -84,10 +82,12 @@ public class Ant {
     public void setParameters(ArrayList<Double> distanceHolder, ArrayList<Double> pheromoneHolder){
 
         
-        for(int i = 0; i < position.getNeighbours().length-1; i++){
+        for(int i = 0; i < position.getNeighbours().length; i++){
 
             if(position.getNeighbour(i).getNode() == lastPosition){
-                position.removeNeighbour(i);
+                // position.removeNeighbour(i);
+				System.out.println("SKIPPED NEIGHBOUR " + position.getNeighbour(i).getNode().getName());
+				continue;
             }
 
             distanceHolder.add(position.getNeighbour(i).getEdge().getDistance());
@@ -116,13 +116,11 @@ public class Ant {
     }
 
     public void calculateProbablePaths(ArrayList<Double> visibilityArray, double visibilityTotal, ArrayList<Double> pathProbabilityArray){
-        double probabilityTotal = 0;
 		for (int i = 0; i < visibilityArray.size(); i++) {
 			double visibility = visibilityArray.get(i);
 			double probability = visibility/visibilityTotal;
 
 			pathProbabilityArray.add(probability);
-			probabilityTotal += probability;
 			System.out.println("Path Probability: " + probability);
 		}
     }
@@ -134,7 +132,18 @@ public class Ant {
         double incrementedDecision = 0;
         System.out.println("The decision: "+ randomNumber);
 
-        for(int i = 0; i < position.getNeighbours().length; i++){
+		Path[] allNeighbours = position.getNeighbours();
+		ArrayList<Path> possibleNeighboursList = new ArrayList<>(0);
+		for (int i = 0; i < allNeighbours.length; i++) {
+			if (allNeighbours[i].getNode() == lastPosition) {
+				continue;
+			}
+			possibleNeighboursList.add(allNeighbours[i]);
+		}
+
+		Path[] possibleNeighbours = possibleNeighboursList.toArray(new Path[0]);
+
+        for(int i = 0; i < possibleNeighbours.length; i++){
             incrementedDecision += pathProbabilityArray.get(i);
             if(randomNumber <= incrementedDecision){
                 System.out.println("You got it!");
@@ -143,9 +152,9 @@ public class Ant {
 
                 System.out.println("Current index: " + i);
                 
-                System.out.println("Moving onto: " + position.getNeighbour(i).getNode().getName());
-				edgesTraversed.put(position.getNeighbour(i).getEdge().getName(), position.getNeighbour(i).getEdge());
-                position = position.getNeighbour(i).getNode();
+                System.out.println("Moving onto: " + possibleNeighbours[i].getNode().getName());
+				edgesTraversed.put(possibleNeighbours[i].getEdge().getName(), possibleNeighbours[i].getEdge());
+                position = possibleNeighbours[i].getNode();
 				if(position.isFood()){
 					collectedFood = true;
 				}

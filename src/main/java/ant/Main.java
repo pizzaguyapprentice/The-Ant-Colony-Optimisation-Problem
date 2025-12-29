@@ -7,7 +7,7 @@ public class Main{
 	public static final int pheromoneImportance = 2;
 	public static final double dissipationRate = 0.2;
 	public static final double pheromoneRate = 2;
-	public static final int GENS = 10;
+	public static final int GENS = 50;
 	public static void main(String[] args) throws IOException{
 		Ant ant = new Ant(World.createWorld());
 
@@ -26,6 +26,7 @@ public class Main{
 				System.out.println("Edge Traversed: " + edge.getName());
 			}
 			ant.resetEdgesTraversed();
+			ant.setCollectedFood(false);
 			World.dissipatePheromone(dissipationRate);
 		}
 	}
