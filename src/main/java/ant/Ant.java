@@ -3,13 +3,14 @@ import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class Ant {
     private Node position;
     private Node lastPosition;
     private boolean collectedFood = false;
-	private ArrayList<Edge> edgesTraversed = new ArrayList<>(0);
+	private HashMap<String, Edge> edgesTraversed = new HashMap<>();
 
     public Ant(HomeNode homeNode){
         this.position = homeNode;
@@ -43,9 +44,13 @@ public class Ant {
       this.collectedFood = collectedFood;
     }
 
-	public Edge[] getEdgesTraversed(){
-        return edgesTraversed.toArray(new Edge[0]);
+	public HashMap<String, Edge> getEdgesTraversed(){
+        return edgesTraversed;
     }
+
+	public void resetEdgesTraversed(){
+		edgesTraversed.clear();
+	}
 
     public boolean nextAction() throws FileNotFoundException {
         // distanceHolder stores full values for the distances of each path e.g 10 , 15 , 20
@@ -139,7 +144,7 @@ public class Ant {
                 System.out.println("Current index: " + i);
                 
                 System.out.println("Moving onto: " + position.getNeighbour(i).getNode().getName());
-				edgesTraversed.add(position.getNeighbour(i).getEdge());
+				edgesTraversed.put(position.getNeighbour(i).getEdge().getName(), position.getNeighbour(i).getEdge());
                 position = position.getNeighbour(i).getNode();
 				if(position.isFood()){
 					collectedFood = true;
