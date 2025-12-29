@@ -7,7 +7,7 @@ public class Main{
 	public static final int pheromoneImportance = 2;
 	public static final double dissipationRate = 0.2;
 	public static final double pheromoneRate = 2;
-	public static final int GENS = 50;
+	public static final int GENS = 75;
 	public static void main(String[] args) throws IOException{
 		Ant ant = new Ant(World.createWorld());
 

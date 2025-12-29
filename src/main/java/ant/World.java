@@ -120,7 +120,7 @@ public class World{
 			if(edgeMap.get(edgeName).getPheromone() <= 0){
 				edgeMap.get(edgeName).setPheromone(0.01);
 			}
-			System.out.println(edgeMap.get(edgeName).getPheromone());
+			System.out.printf("Node %s: Pheromone Count: %f\n",edgeName, edgeMap.get(edgeName).getPheromone());
 		}
 	}
 }
