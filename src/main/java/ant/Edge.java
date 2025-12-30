@@ -17,20 +17,29 @@ public class Edge{
 	public double getPheromone() {
 		return pheromone;
 	}
+
 	public void setPheromone(double pheromone) {
 		this.pheromone = pheromone;
 	}
+
 	public double getDistance() {
 		return distance;
 	}
-	public void setDistance(double distance) {
+
+	public void setDistance(double distance){
 		this.distance = distance;
 	}
-	public void addPheromone(double pheromone) {
-		this.pheromone = this.pheromone + pheromone;
+
+	public void addPheromone(double newPheromone){
+		this.pheromone = this.pheromone + newPheromone;
 	}
-	public void removePheromone(double pheromone) {
-		this.pheromone = this.pheromone - pheromone;
+
+	public void updatePheromone(double dissipationRate){
+		this.pheromone = (dissipationRate * this.pheromone);
+	}
+
+	public void updatePheromone(double dissipationRate, double newPheromone){
+		this.pheromone = (dissipationRate * this.pheromone) + newPheromone;
 	}
 
 	public String getName() {

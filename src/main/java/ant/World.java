@@ -116,11 +116,16 @@ public class World{
 
 	public static void dissipatePheromone(double dissipationRate){
 		for(String edgeName: edgeMap.keySet()){
-			edgeMap.get(edgeName).removePheromone(dissipationRate);
-			if(edgeMap.get(edgeName).getPheromone() <= 0){
-				edgeMap.get(edgeName).setPheromone(0.01);
-			}
-			System.out.printf("Node %s: Pheromone Count: %f\n",edgeName, edgeMap.get(edgeName).getPheromone());
+			edgeMap.get(edgeName).updatePheromone(dissipationRate);
+			// if(edgeMap.get(edgeName).getPheromone() <= 0){
+			// 	edgeMap.get(edgeName).setPheromone(0.01);
+			// }
+		}
+	}
+
+	public static void printEdgePheromone(){
+		for(String edgeName: edgeMap.keySet()){
+			System.out.printf("Edge %s: Pheromone Count: %f\n",edgeName, edgeMap.get(edgeName).getPheromone());
 		}
 	}
 }

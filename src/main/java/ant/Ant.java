@@ -65,37 +65,32 @@ public class Ant {
 
         setParameters(distanceHolder,pheromoneHolder);
 
-        System.out.println();
+        // System.out.println();
 
         visibilityTotal = setVisibility(distanceHolder, pheromoneHolder, visibilityArray, visibilityTotal);
 
-		System.out.println();
+		// System.out.println();
 
         calculateProbablePaths(visibilityArray, visibilityTotal, pathProbabilityArray);
 
-		System.out.println();
+		// System.out.println();
 
         return chooseNextPath(pathProbabilityArray);
 
     }
 
     public void setParameters(ArrayList<Double> distanceHolder, ArrayList<Double> pheromoneHolder){
-
-        
         for(int i = 0; i < position.getNeighbours().length; i++){
 
             if(position.getNeighbour(i).getNode() == lastPosition){
                 // position.removeNeighbour(i);
-				System.out.println("SKIPPED NEIGHBOUR " + position.getNeighbour(i).getNode().getName());
+				// System.out.println("SKIPPED NEIGHBOUR " + position.getNeighbour(i).getNode().getName());
 				continue;
             }
 
             distanceHolder.add(position.getNeighbour(i).getEdge().getDistance());
 			pheromoneHolder.add(position.getNeighbour(i).getEdge().getPheromone());
         }
-
-		System.out.println();
-        
     }
     public double setVisibility(ArrayList<Double> distanceHolder, ArrayList<Double> pheromoneHolder, ArrayList<Double> visibilityArray, double visibilityTotal){
         
@@ -109,7 +104,7 @@ public class Ant {
 			double visibility = pheromone * heuristic;
             visibilityTotal += visibility;
             visibilityArray.add(visibility);
-            System.out.println("Visibility: " + visibility);
+            // System.out.printf("Visibility: %.20f\n", visibility);
         }
 
         return visibilityTotal;
@@ -121,7 +116,7 @@ public class Ant {
 			double probability = visibility/visibilityTotal;
 
 			pathProbabilityArray.add(probability);
-			System.out.println("Path Probability: " + probability);
+			// System.out.printf("Path Probability: %.20f\n", probability);
 		}
     }
 
@@ -130,7 +125,7 @@ public class Ant {
         double randomNumber = new Random().nextDouble();
 
         double incrementedDecision = 0;
-        System.out.println("The decision: "+ randomNumber);
+        // System.out.println("The decision: "+ randomNumber);
 
 		Path[] allNeighbours = position.getNeighbours();
 		ArrayList<Path> possibleNeighboursList = new ArrayList<>(0);
@@ -146,29 +141,24 @@ public class Ant {
         for(int i = 0; i < possibleNeighbours.length; i++){
             incrementedDecision += pathProbabilityArray.get(i);
             if(randomNumber <= incrementedDecision){
-                System.out.println("You got it!");
+                // System.out.println("Chose Path " + i);
                 System.out.println("Current position: " + position.getName());
                 lastPosition = position;
 
-                System.out.println("Current index: " + i);
-                
                 System.out.println("Moving onto: " + possibleNeighbours[i].getNode().getName());
 				edgesTraversed.put(possibleNeighbours[i].getEdge().getName(), possibleNeighbours[i].getEdge());
                 position = possibleNeighbours[i].getNode();
 				if(position.isFood()){
 					collectedFood = true;
+					lastPosition = null;
 				}
 				if(position instanceof HomeNode && collectedFood){
 					return true;
 				}
-                
-                break;
-            }
-            else{
-                System.out.println("You did NOT get it...");
+				break;
             }
         }
-        System.out.println("Colected Food: " + collectedFood);
+        // System.out.println("Colected Food: " + collectedFood);
 		return false;
 
     }
