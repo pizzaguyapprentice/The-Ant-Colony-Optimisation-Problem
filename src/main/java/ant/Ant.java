@@ -9,6 +9,7 @@ public class Ant {
     private Node lastPosition;
     private boolean collectedFood = false;
 	private HashMap<String, Edge> edgesTraversed = new HashMap<>();
+	public ArrayList<Edge> edgesTraversed2 = new ArrayList<>(0);
 
     public Ant(HomeNode homeNode){
         this.position = homeNode;
@@ -147,6 +148,7 @@ public class Ant {
 
                 System.out.println("Moving onto: " + possibleNeighbours[i].getNode().getName());
 				edgesTraversed.put(possibleNeighbours[i].getEdge().getName(), possibleNeighbours[i].getEdge());
+				edgesTraversed2.add(possibleNeighbours[i].getEdge());
                 position = possibleNeighbours[i].getNode();
 				if(position.isFood()){
 					collectedFood = true;

@@ -2,6 +2,7 @@ package ant;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -65,6 +66,7 @@ public class World{
 
 			if(!jreader.hasNext() && node != null){
 				node.setFood(true);
+				// nodeMap.get("C").setFood(true);;
 			}
 			
 			for(int j = 0; j < neighbourList.size(); j++){
@@ -123,9 +125,20 @@ public class World{
 		}
 	}
 
+	public static void updateEdgePheromone(String edgeName, double pheromone){
+		edgeMap.get(edgeName).addPheromone(pheromone);
+	}
+
 	public static void printEdgePheromone(){
 		for(String edgeName: edgeMap.keySet()){
 			System.out.printf("Edge %s: Pheromone Count: %f\n",edgeName, edgeMap.get(edgeName).getPheromone());
 		}
+	}
+
+	public static void outputEdgePheromone(PrintWriter pw){
+		for(String edgeName: edgeMap.keySet()){
+			pw.printf("Edge %s: Pheromone Count: %f\n",edgeName, edgeMap.get(edgeName).getPheromone());
+		}
+		pw.println();
 	}
 }
