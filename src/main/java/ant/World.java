@@ -3,20 +3,17 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gson.stream.JsonReader;
 
 public class World{
-
 	private static HashMap<String, Edge> edgeMap = new HashMap<>();
+	private static HashMap<String, Node> nodeMap = new HashMap<>();
 
 	public static HomeNode createWorld() throws IOException{
 		// Gets The Adjacency Table File
 		File adjacencyTable = new File("src/main/resources/table.json");
-
-		HashMap<String, Node> nodeMap = new HashMap<>();
 
 		// Readers To Create A JsonReader To Read The Json Table
 		FileReader freader = new FileReader(adjacencyTable);
@@ -25,72 +22,62 @@ public class World{
 
 		// For loop To Read The File
 		// And Hashmap. Creates The Node
+		jreader.nextName();
+		jreader.beginArray();
+
 		for(int i = 0; jreader.hasNext(); i++){
-			String name = jreader.nextName();
-			ArrayList<String> neighbourList = new ArrayList<>(0);
-			ArrayList<Integer> distanceList = new ArrayList<>(0);
-
-			jreader.beginObject();
-			jreader.nextName();
-			jreader.beginArray();
-
-			// neighbourList.add(name);
-
-			while(jreader.hasNext()){
-				neighbourList.add(jreader.nextString());
-			}
-
-			jreader.endArray();
-			jreader.nextName();
-			jreader.beginArray();
-
-			while(jreader.hasNext()){
-				distanceList.add(jreader.nextInt());
-			}
-			jreader.endArray();
-			jreader.endObject();
-
-			Node node = nodeMap.get(name);
+			String name = jreader.nextString();
 			if(i == 0){
-				node = new HomeNode(name);
+				Node node = new HomeNode(name);
 				nodeMap.put(name, node);
 			}
-			else if(!jreader.hasNext() && node == null){
-				node = new FoodNode(name);
-				nodeMap.put(name, node);
-			}
-			else if(node == null){
-				node = new Node(name);
-				nodeMap.put(name, node);
-			}
-
-			if(!jreader.hasNext() && node != null){
+			else if(!jreader.hasNext()){
+				Node node = new FoodNode(name);
 				node.setFood(true);
-				// nodeMap.get("C").setFood(true);;
+				nodeMap.put(name, node);
 			}
-			
-			for(int j = 0; j < neighbourList.size(); j++){
-				String neighbourName = neighbourList.get(j);
-				if(node.hasNeighbour(neighbourName)){
-					continue;
-				}
-				Node neighbourNode = nodeMap.get(neighbourName);
-				if(neighbourNode == null){
-					neighbourNode = new Node(neighbourName);
-					nodeMap.put(neighbourName, neighbourNode);
-				}
-				Edge edge = new Edge(distanceList.get(j));
-				Path path1 = new Path(neighbourNode, edge);
-				Path path2 = new Path(node, edge);
-				node.addNeighbour(path1);
-				neighbourNode.addNeighbour(path2);
-				edge.setName((node.getName() + neighbourName).toLowerCase());
-				edgeMap.put((node.getName() + neighbourName).toLowerCase(), edge);
+			else{
+				Node node = new Node(name);
+				nodeMap.put(name, node);
 			}
 		}
 
-		jreader.close();
+		jreader.endArray();
+		jreader.nextName();
+		jreader.beginArray();
 
+		while(jreader.hasNext()){
+			jreader.beginArray();
+			String firstNodeName = jreader.nextString();
+			String secondNodeName = jreader.nextString();
+			int distance = jreader.nextInt();
+			jreader.endArray();
+
+			Node firstNode = nodeMap.get(firstNodeName);
+			Node secondNode = nodeMap.get(secondNodeName);
+
+			if(firstNode == null || secondNode == null){
+				jreader.close();
+				throw new NullPointerException("Adjecency To Non Existant Node");
+			}
+
+			Edge edge = new Edge((firstNodeName + secondNodeName).toLowerCase(), distance);
+			Path firstPath = new Path(secondNode, edge);
+			Path secondPath = new Path(firstNode, edge);
+			firstNode.addNeighbour(firstPath);
+			secondNode.addNeighbour(secondPath);
+			edgeMap.put(edge.getName(), edge);
+		}
+
+		jreader.endArray();
+		jreader.endObject();
+
+		jreader.close();
+		
+		return (HomeNode) nodeMap.get("A");
+	}
+
+	public static void printWorld(){
 		// For Loop To Print Out Generated Graph
 		for(String nodeName : nodeMap.keySet()){
 			String nodeType;
@@ -112,16 +99,11 @@ public class World{
 			}
 			System.out.println();
 		}
-		
-		return (HomeNode) nodeMap.get("A");
 	}
 
 	public static void dissipatePheromone(double dissipationRate){
 		for(String edgeName: edgeMap.keySet()){
 			edgeMap.get(edgeName).updatePheromone(dissipationRate);
-			// if(edgeMap.get(edgeName).getPheromone() <= 0){
-			// 	edgeMap.get(edgeName).setPheromone(0.01);
-			// }
 		}
 	}
 

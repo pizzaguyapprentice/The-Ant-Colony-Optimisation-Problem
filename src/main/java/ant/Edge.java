@@ -4,16 +4,12 @@ public class Edge{
 	private double pheromone;
 	private double distance;
 
-	public Edge(double distance){
+	public Edge(String name, double distance){
+		this.name = name;
 		this.distance = distance;
 		this.pheromone = 1;
 	}
 
-	public Edge(double distance, double pheromone){
-		this.distance = distance;
-		this.pheromone = pheromone;
-	}
-	
 	public double getPheromone() {
 		return pheromone;
 	}
