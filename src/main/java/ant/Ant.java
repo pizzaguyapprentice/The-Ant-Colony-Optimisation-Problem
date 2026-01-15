@@ -80,6 +80,7 @@ public class Ant {
 
     }
 
+    // This method is used to avoid lastPosition Node and to initialize and calculate visibility locally.
     public void setParameters(ArrayList<Double> distanceHolder, ArrayList<Double> pheromoneHolder){
         for(int i = 0; i < position.getNeighbours().length; i++){
 
@@ -93,6 +94,8 @@ public class Ant {
 			pheromoneHolder.add(position.getNeighbour(i).getEdge().getPheromone());
         }
     }
+
+    // Using the formula in the ACO problem to calculate the heuristic and visibility.
     public double setVisibility(ArrayList<Double> distanceHolder, ArrayList<Double> pheromoneHolder, ArrayList<Double> visibilityArray, double visibilityTotal){
         
         for(int i = 0; i < distanceHolder.size(); i++){
@@ -111,6 +114,7 @@ public class Ant {
         return visibilityTotal;
     }
 
+    // Finally the visibility is turned into a probability, determining how likely each path is to be selected
     public void calculateProbablePaths(ArrayList<Double> visibilityArray, double visibilityTotal, ArrayList<Double> pathProbabilityArray){
 		for (int i = 0; i < visibilityArray.size(); i++) {
 			double visibility = visibilityArray.get(i);
@@ -121,6 +125,7 @@ public class Ant {
 		}
     }
 
+    // Generate random number, check where it lands and traverse it.
     public Boolean chooseNextPath(ArrayList<Double> pathProbabilityArray){
 
         double randomNumber = new Random().nextDouble();
