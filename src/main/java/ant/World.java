@@ -8,10 +8,19 @@ import java.util.HashMap;
 import com.google.gson.stream.JsonReader;
 
 public class World{
-	private static HashMap<String, Edge> edgeMap = new HashMap<>();
-	private static HashMap<String, Node> nodeMap = new HashMap<>();
+	private HashMap<String, Edge> edgeMap = new HashMap<>();
+	private HashMap<String, Node> nodeMap = new HashMap<>();
+	private final HomeNode startNode;
 
-	public static HomeNode createWorld() throws IOException{
+	public World() throws IOException{
+		startNode = createWorld();
+	}
+
+	public HomeNode getStartNode(){
+		return startNode;
+	}
+
+	private HomeNode createWorld() throws IOException{
 		// Gets The Adjacency Table File
 		File adjacencyTable = new File("src/main/resources/table.json");
 
@@ -77,7 +86,7 @@ public class World{
 		return (HomeNode) nodeMap.get("A");
 	}
 
-	public static void printWorld(){
+	public void printWorld(){
 		// For Loop To Print Out Generated Graph
 		for(String nodeName : nodeMap.keySet()){
 			String nodeType;
@@ -101,23 +110,23 @@ public class World{
 		}
 	}
 
-	public static void dissipatePheromone(double dissipationRate){
+	public void dissipatePheromone(double dissipationRate){
 		for(String edgeName: edgeMap.keySet()){
 			edgeMap.get(edgeName).updatePheromone(dissipationRate);
 		}
 	}
 
-	public static void updateEdgePheromone(String edgeName, double pheromone){
+	public void updateEdgePheromone(String edgeName, double pheromone){
 		edgeMap.get(edgeName).addPheromone(pheromone);
 	}
 
-	public static void printEdgePheromone(){
+	public void printEdgePheromone(){
 		for(String edgeName: edgeMap.keySet()){
 			System.out.printf("Edge %s: Pheromone Count: %f\n",edgeName, edgeMap.get(edgeName).getPheromone());
 		}
 	}
 
-	public static void outputEdgePheromone(PrintWriter pw){
+	public void outputEdgePheromone(PrintWriter pw){
 		for(String edgeName: edgeMap.keySet()){
 			pw.printf("Edge %s: Pheromone Count: %f\n",edgeName, edgeMap.get(edgeName).getPheromone());
 		}

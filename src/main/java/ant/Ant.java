@@ -8,8 +8,9 @@ public class Ant {
     private Node position;
     private Node lastPosition;
     private boolean collectedFood = false;
+	public Edge lastEdge = null;
 	private HashMap<String, Edge> edgesTraversed = new HashMap<>();
-	public ArrayList<Edge> edgesTraversed2 = new ArrayList<>(0);
+	// public ArrayList<Edge> edgesTraversed2 = new ArrayList<>(0);
 
     public Ant(HomeNode homeNode){
         this.position = homeNode;
@@ -99,13 +100,13 @@ public class Ant {
     public double setVisibility(ArrayList<Double> distanceHolder, ArrayList<Double> pheromoneHolder, ArrayList<Double> visibilityArray, double visibilityTotal){
         
         for(int i = 0; i < distanceHolder.size(); i++){
-            double heuristic = 1/distanceHolder.get(i);
-			heuristic = Math.pow(heuristic, Main.distanceImportance);
+            double reciprocal = 1/distanceHolder.get(i);
+			reciprocal = Math.pow(reciprocal, Main.distanceImportance);
 
 			double pheromone = pheromoneHolder.get(i);
 			pheromone = Math.pow(pheromone, Main.pheromoneImportance);
 
-			double visibility = pheromone * heuristic;
+			double visibility = pheromone * reciprocal;
             visibilityTotal += visibility;
             visibilityArray.add(visibility);
             // System.out.printf("Visibility: %.20f\n", visibility);
@@ -153,7 +154,8 @@ public class Ant {
 
                 System.out.println("Moving onto: " + possibleNeighbours[i].getNode().getName());
 				edgesTraversed.put(possibleNeighbours[i].getEdge().getName(), possibleNeighbours[i].getEdge());
-				edgesTraversed2.add(possibleNeighbours[i].getEdge());
+				lastEdge = possibleNeighbours[i].getEdge();
+				// edgesTraversed2.add(lastEdge);
                 position = possibleNeighbours[i].getNode();
 				if(position.isFood()){
 					collectedFood = true;
