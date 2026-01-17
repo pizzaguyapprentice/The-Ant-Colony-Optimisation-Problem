@@ -2,6 +2,8 @@ package ant;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 public class Main{
@@ -16,10 +18,15 @@ public class Main{
 	public static void main(String[] args) throws IOException{
 		World world = new World();
 		Ant ant = new Ant(world.getStartNode());
-
-		File file = new File("src/main/resources/" + System.currentTimeMillis() + ".txt");
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss:SSS");
+		Date date = new Date(System.currentTimeMillis());
+		File file = new File("src/main/resources/results/output-" + sdf.format(date) + ".txt");
 		file.createNewFile();
 		PrintWriter pw = new PrintWriter(file);
+
+		// START measuring time in seconds
+		Time time = new Time();
+		time.startTime();
 
 		for(int i = 1; i <= GENS; i++){
 			HashMap<String, Double> totalPheromoneMap = new HashMap<String, Double>();
@@ -49,6 +56,7 @@ public class Main{
 			}
 			System.out.printf("Finished Iteration %d\n", i);
 			
+			
 			world.dissipatePheromone(dissipationRate);
 
 			for(String edgeName : totalPheromoneMap.keySet()){
@@ -59,6 +67,7 @@ public class Main{
 
 			pw.println("Gen " + i);
 			world.outputEdgePheromone(pw);
+			
 
 			
 			// double totalDistance = 0;
@@ -72,6 +81,7 @@ public class Main{
 			// 	System.out.printf("Edge Traversed: %s  Pheromones Deposited: %.5f\n", edgeName.getName(), pheromones);
 			// }
 		}
+		time.elapsedTime();
 		pw.close();
 	}
 }

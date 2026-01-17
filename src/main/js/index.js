@@ -1,83 +1,105 @@
-var svg = d3.select("svg");
-var width = svg.attr("width");
-var height = svg.attr("height");
+var svg = d3.select("svg")
+    .attr("width",600)
+    .attr("height",600);
+    
+var width = +svg.attr("width");
+var height = +svg.attr("height");
 
-var graph = {
+d3.json("resources/nodegraphd3.json").then(function(graph) {
+    console.log(graph);
+    createGraph(graph);
+});
 
-    nodes: [
-        {name: "A"},
-        {name: "B"},
-        {name: "C"},
-        {name: "D"},
-        {name: "E"},
-        {name: "F"},
-        {name: "G"},
-    ],
-    links: [
-        {source:"A", target: "B"},
-        {source:"A", target: "C"},
-        {source:"A", target: "D"},
-        {source:"B", target: "C"},
-        {source:"B", target: "F"},
-        {source:"B", target: "A"},
-        {source:"C", target: "A"},
-        {source:"C", target: "B"},
-        {source:"C", target: "F"},
-        {source:"C", target: "E"},
-        {source:"D", target: "A"},
-        {source:"D", target: "F"},
-        {source:"E", target: "C"},
-        {source:"E", target: "F"},
-        {source:"E", target: "G"},
-        {source:"F", target: "D"},
-        {source:"F", target: "C"},
-        {source:"F", target: "B"},
-        {source:"F", target: "E"},
-        {source:"F", target: "G"},
-        {source:"G", target: "F"},
-        {source:"G", target: "E"},
-    ]
-};
 
-function drawNodeGraph(data){
-    document.getElementsByTagName
+function createGraph(graph){
 
-    const width = 600;
-    const height = 600;
-    const margin = {top: 10, right: 10, bottom: 10, left:10};
 
-    const plot_height = height - margin-top - margin.bottom;
-    const plot_width = width - margin.left - margin.right;
+    var simulation = d3
+        .forceSimulation(graph.nodes)
+        .force(
+            "link",
+            d3.forceLink(graph.links)
+                .id(d => d.name)
+                .distance(d => d.distance *5)
+        )
+        .force("charge", d3.forceManyBody().strength(-400))
+        .force("center", d3.forceCenter(width / 2, height / 2))
+        .on("tick", ticked);
 
-    const canvas = d3.select("#canvas")
-    .append("svg")
-    .style("background", "aliceblue")
-    .attr("height", height)
-    .attr("width", width);
+    var link = svg
+        .append("g")
+        .selectAll("line")
+        .data(graph.links)
+        .enter()
+        .append("line")
+        .attr("stroke-width", 2)
+        .style("stroke","pink");
 
-    const plot = canvas.append("g")
-    .attr ("transform",'translate(${margin.left},$')
-}
+    var node = svg
+        .append("g")
+        .selectAll("circle")
+        .data(graph.nodes)
+        .enter()
+        .append("circle")
+        .attr("r", 16)
+        .attr("fill", "steelblue");
 
-var simulation = d3
-    .forceSimulation(graph.nodes)
-    .force(
-        "link",
-        d3.forceLink(graph.links).id(function(d){
-            return d.name;
-        })
-    )
-    .force("charge", d3.forceManyBody().strength(-30))
-    .force("center", d3.forceCenter(width/2, height /2))
-    .on("tick",ticked);
-
-var link = svg
+    var nodeLabels = svg
     .append("g")
-    .selectAll("line")
+    .selectAll("text")
+    .data(graph.nodes)
+    .enter()
+    .append("text")
+    .attr("font-size", 12)
+    .attr("fill", "white")
+    .attr("text-anchor", "middle")
+    .attr("font-weight","bold")
+    .attr("dy", 4)
+    .text(d => d.name)
+
+    var linkLabels = svg
+    .append("g")
+    .selectAll("g")
     .data(graph.links)
     .enter()
-    .append("line")
-    .attr("stroke-width", function(d){
-        return 3;
-    })
-    .style("stroke","pink");
+    .append("g");
+
+    var pheromoneLabel = linkLabels
+    .append("text")
+    .attr("font-size", 11)
+    .attr("fill", "purple")
+    .attr("text-anchor", "middle")
+    .attr("dy", "-5")
+    .text(d => d.pheromone);
+
+    var distanceLabel = linkLabels
+    .append("text")
+    .attr("font-size", 11)
+    .attr("fill", "green")
+    .attr("text-anchor", "middle")
+    .attr("dy", "10")
+    .text(d => d.distance);
+
+    function ticked() {
+        link
+            .attr("x1", d => d.source.x)
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x)
+            .attr("y2", d => d.target.y);
+
+        node
+            .attr("cx", d => d.x = Math.max(8, Math.min(width - 8, d.x)))
+            .attr("cy", d => d.y = Math.max(8, Math.min(height - 8, d.y)));
+
+        linkLabels
+        .attr("transform", d => {
+            var x = (d.source.x + d.target.x) / 2;
+            var y = (d.source.y + d.target.y) / 2;
+            return `translate(${x},${y})`;
+        });
+        nodeLabels
+            .attr("x", d => d.x)
+            .attr("y", d => d.y);
+
+    }
+}
