@@ -1,8 +1,8 @@
 package ant;
 import java.io.FileNotFoundException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 public class Ant {
     private Node position;
@@ -59,8 +59,10 @@ public class Ant {
 
         ArrayList<Double> distanceHolder = new ArrayList<Double>(0);
 		ArrayList<Double> pheromoneHolder = new ArrayList<Double>(0);
-        ArrayList<Double> visibilityArray = new ArrayList<Double>();
-        ArrayList<Double> pathProbabilityArray = new ArrayList<Double>(0);
+        ArrayList<Double> visibilityArray = new ArrayList<>();
+        ArrayList<Double> pathProbabilityArray = new ArrayList<>(0);
+        //double distanceHolder[] = new double[position.getNeighbours().length];
+        //double pheromoneHolder[] = new double[position.getNeighbours().length];
         double visibilityTotal = 0;
 
 		System.out.println();
@@ -83,14 +85,18 @@ public class Ant {
 
     // This method is used to avoid lastPosition Node and to initialize and calculate visibility locally.
     public void setParameters(ArrayList<Double> distanceHolder, ArrayList<Double> pheromoneHolder){
-        for(int i = 0; i < position.getNeighbours().length; i++){
 
+        for(int i = 0; i < position.getNeighbours().length; i++){
+            int arrayIndex = 0;
             if(position.getNeighbour(i).getNode() == lastPosition){
                 // position.removeNeighbour(i);
 				// System.out.println("SKIPPED NEIGHBOUR " + position.getNeighbour(i).getNode().getName());
-				continue;
+                continue;
             }
-
+            
+            // distanceHolder[arrayIndex] = position.getNeighbour(i).getEdge().getDistance();
+            // pheromoneHolder[arrayIndex] = position.getNeighbour(i).getEdge().getPheromone();
+            
             distanceHolder.add(position.getNeighbour(i).getEdge().getDistance());
 			pheromoneHolder.add(position.getNeighbour(i).getEdge().getPheromone());
         }
@@ -129,19 +135,18 @@ public class Ant {
     // Generate random number, check where it lands and traverse it.
     public Boolean chooseNextPath(ArrayList<Double> pathProbabilityArray){
 
-        double randomNumber = new Random().nextDouble();
+        double randomNumber = new SecureRandom().nextDouble();
 
         double incrementedDecision = 0;
         // System.out.println("The decision: "+ randomNumber);
-
 		Path[] allNeighbours = position.getNeighbours();
 		ArrayList<Path> possibleNeighboursList = new ArrayList<>(0);
-		for (int i = 0; i < allNeighbours.length; i++) {
-			if (allNeighbours[i].getNode() == lastPosition) {
-				continue;
-			}
-			possibleNeighboursList.add(allNeighbours[i]);
-		}
+        for (Path allNeighbour : allNeighbours) {
+            if (allNeighbour.getNode() == lastPosition) {
+                continue;
+            }
+            possibleNeighboursList.add(allNeighbour);
+        }
 
 		Path[] possibleNeighbours = possibleNeighboursList.toArray(new Path[0]);
 
