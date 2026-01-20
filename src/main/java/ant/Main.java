@@ -21,6 +21,8 @@ public class Main{
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss:SSS");
 		Date date = new Date(System.currentTimeMillis());
 		File file = new File("src/main/resources/results/output-" + sdf.format(date) + ".txt");
+		File folder = new File("src/main/resources/results");
+		folder.mkdirs();
 		file.createNewFile();
 		PrintWriter pw = new PrintWriter(file);
 
