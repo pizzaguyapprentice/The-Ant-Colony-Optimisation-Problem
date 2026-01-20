@@ -2,7 +2,6 @@ package ant;
 import java.util.ArrayList;
 
 public class Node{
-
 	private ArrayList<Path> neighbours = new ArrayList<>(0);
 	private String name;
 	private boolean isFoodNode = false;
@@ -40,6 +39,10 @@ public class Node{
 		return neighbours.toArray(new Path[0]);
 	}
 
+	public int getNumOfNeighbours(){
+		return neighbours.size();
+	}
+
 	public void setNeighbours(ArrayList<Path> neighbours){
 		this.neighbours = neighbours;
 	}
@@ -67,5 +70,24 @@ public class Node{
 
 	public void setFood(boolean bool) {
 		this.isFoodNode = bool;
+	}
+
+	public Path[] getNeighboursExcluding(Node... excludedNodes){
+		if(excludedNodes == null){
+			return getNeighbours();
+		}
+
+		Path[] neighbourArray = new Path[neighbours.size() - excludedNodes.length];
+
+		ArrayList<Path> isThisThePath = (ArrayList<Path>) neighbours.clone();
+
+		for(int i = 0; i < neighbours.size(); i++){
+			for (int j = 0; j < excludedNodes.length; j++) {
+				if(neighbours.get(i).getNode().equals(excludedNodes[j])) {
+					isThisThePath.remove(neighbours.get(i));
+				}
+			}
+		}
+		return isThisThePath.toArray(neighbourArray);
 	}
 }
