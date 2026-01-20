@@ -21,4 +21,13 @@ public class Path{
 	public void setEdge(Edge edge) {
 		this.edge = edge;
 	}
+
+	// Helper Methods To Reduce Nested Method Calling
+	public double getDistance(){
+		return edge.getDistance();
+	}
+
+	public double getPheromone(){
+		return edge.getPheromone();
+	}
 }

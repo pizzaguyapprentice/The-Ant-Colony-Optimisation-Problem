@@ -7,14 +7,20 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class Main{
+	// Debug Parameter For Extra Printing
+	public static final int DEBUG = 1;
+
+	// Global Parameters For ACO Problem
 	public static final double distanceImportance = 0.2;
-	public static final double pheromoneImportance = 2;
-	public static final double dissipationRate = 0.7;
+	public static final double pheromoneImportance = 1.4;
+	public static final double dissipationRate = 0.2;
 	public static final double pheromoneRate = 5;
 
 	// Number Of Ants Per Generation
 	public static final int NUM_ANTS = 100;
-	public static final int GENS = 100;
+	public static final int GENS = 1000;
+
+	@SuppressWarnings("unused")
 	public static void main(String[] args) throws IOException{
 		World world = new World();
 		Ant ant = new Ant(world.getStartNode());
@@ -31,15 +37,27 @@ public class Main{
 		time.startTime();
 
 		for(int i = 1; i <= GENS; i++){
+			if(Main.DEBUG >= 1){
+				System.out.printf("\nStarted Generation %d\n", i);
+			}
+
 			HashMap<String, Double> totalPheromoneMap = new HashMap<String, Double>();
 
 			for(int j = 0; j < NUM_ANTS; j++){
+				if(Main.DEBUG >= 1){
+					System.out.printf("\nAnt %d\n", j);
+				}
+
 				double totalDistance = 0;
 				while(!ant.nextAction()){
 					totalDistance = totalDistance + ant.lastEdge.getDistance();
 				}
 				totalDistance = totalDistance + ant.lastEdge.getDistance();
-				System.out.println(totalDistance);
+				
+				if(Main.DEBUG >= 1){
+					System.out.printf("Total Distance: %f\n", totalDistance);
+				}
+				
 
 				HashMap<String, Edge> edgesTraversed = ant.getEdgesTraversed();
 
@@ -56,32 +74,20 @@ public class Main{
 				ant.resetEdgesTraversed();
 				ant.setCollectedFood(false);
 			}
-			System.out.printf("Finished Iteration %d\n", i);
-			
-			
+
 			world.dissipatePheromone(dissipationRate);
 
 			for(String edgeName : totalPheromoneMap.keySet()){
 				world.updateEdgePheromone(edgeName, totalPheromoneMap.get(edgeName));
 			}
 
-			world.printEdgePheromone();
-
 			pw.println("Gen " + i);
 			world.outputEdgePheromone(pw);
-			
 
-			
-			// double totalDistance = 0;
-			// for(String secondEdgeName : edgesTraversed.keySet()){
-			// 	totalDistance = totalDistance + edgesTraversed.get(secondEdgeName).getDistance();
-			// }
-
-			// for(Edge edgeName : ant.edgesTraversed2){
-			// 	double pheromones = pheromoneRate / totalDistance;
-			// 	edgeName.addPheromone(pheromones);
-			// 	System.out.printf("Edge Traversed: %s  Pheromones Deposited: %.5f\n", edgeName.getName(), pheromones);
-			// }
+			if(Main.DEBUG >= 1){
+				world.printEdgePheromone();
+				System.out.printf("\nFinished Generation %d\n", i);
+			}
 		}
 		time.elapsedTime();
 		pw.close();

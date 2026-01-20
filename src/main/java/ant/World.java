@@ -112,7 +112,7 @@ public class World{
 
 	public void dissipatePheromone(double dissipationRate){
 		for(String edgeName: edgeMap.keySet()){
-			edgeMap.get(edgeName).updatePheromone(dissipationRate);
+			edgeMap.get(edgeName).dissipatePheromone(dissipationRate);
 		}
 	}
 

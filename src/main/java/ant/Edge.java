@@ -30,7 +30,7 @@ public class Edge{
 		this.pheromone = this.pheromone + newPheromone;
 	}
 
-	public void updatePheromone(double dissipationRate){
+	public void dissipatePheromone(double dissipationRate){
 		this.pheromone = (dissipationRate * this.pheromone);
 	}
 

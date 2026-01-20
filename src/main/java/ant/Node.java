@@ -43,10 +43,6 @@ public class Node{
 		return neighbours.size();
 	}
 
-	public void setNeighbours(ArrayList<Path> neighbours){
-		this.neighbours = neighbours;
-	}
-
 	public boolean hasNeighbour(String name){
 		for(Path path : neighbours){
 			if(name.equals(path.getNode().getName())){

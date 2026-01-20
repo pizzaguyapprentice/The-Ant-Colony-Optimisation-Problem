@@ -60,7 +60,7 @@ public class Ant {
 		double pathProbabilityArray[] = new double[neighbours.length];
         double visibilityTotal = 0;
 
-        visibilityTotal = setVisibility(neighbours, visibilityArray, visibilityTotal);
+        visibilityTotal = setVisibility(neighbours, visibilityArray);
 
         calculateProbablePaths(visibilityArray, visibilityTotal, pathProbabilityArray);
 
@@ -69,9 +69,10 @@ public class Ant {
     }
 
     // Using the formula in the ACO problem to calculate the heuristic and visibility.
-    public double setVisibility(Path[] neighbours, double[] visibilityArray, double visibilityTotal){
-        
-        for(int i = 0; i < neighbours.length; i++){
+    private double setVisibility(Path[] neighbours, double[] visibilityArray){
+		double visibilityTotal = 0;
+
+		for(int i = 0; i < neighbours.length; i++){
             double reciprocal = 1/neighbours[i].getEdge().getDistance();
 			reciprocal = Math.pow(reciprocal, Main.distanceImportance);
 
@@ -81,41 +82,40 @@ public class Ant {
 			double visibility = pheromone * reciprocal;
             visibilityTotal += visibility;
             visibilityArray[i] = visibility;
-            // System.out.printf("Visibility: %.20f\n", visibility);
         }
 
         return visibilityTotal;
     }
 
     // Finally the visibility is turned into a probability, determining how likely each path is to be selected
-    public void calculateProbablePaths(double[] visibilityArray, double visibilityTotal, double[] pathProbabilityArray){
+    private void calculateProbablePaths(double[] visibilityArray, double visibilityTotal, double[] pathProbabilityArray){
 		for (int i = 0; i < visibilityArray.length; i++) {
 			double visibility = visibilityArray[i];
 			double probability = visibility/visibilityTotal;
 
 			pathProbabilityArray[i] = probability;
-			// System.out.printf("Path Probability: %.20f\n", probability);
 		}
     }
 
     // Generate random number, check where it lands and traverse it.
-    public Boolean chooseNextPath(Path[] possibleNeighbours, double[] pathProbabilityArray){
-        double randomNumber = new SecureRandom().nextDouble();
+	private Boolean chooseNextPath(Path[] possibleNeighbours, double[] pathProbabilityArray){
+		double randomNumber = new SecureRandom().nextDouble();
+		double incrementedDecision = 0;
 
-        double incrementedDecision = 0;
-        // System.out.println("The decision: "+ randomNumber);
+		for(int i = 0; i < possibleNeighbours.length; i++){
+			incrementedDecision += pathProbabilityArray[i];
+			if(randomNumber < incrementedDecision){
+				lastPosition = position;
 
-        for(int i = 0; i < possibleNeighbours.length; i++){
-            incrementedDecision += pathProbabilityArray[i];
-            if(randomNumber <= incrementedDecision){
-                System.out.println("Current position: " + position.getName());
-                lastPosition = position;
-
-                System.out.println("Moving onto: " + possibleNeighbours[i].getNode().getName());
 				edgesTraversed.put(possibleNeighbours[i].getEdge().getName(), possibleNeighbours[i].getEdge());
 
+				if(Main.DEBUG >= 1){
+					System.out.println("Current position: " + position.getName());
+					System.out.println("Moving onto: " + possibleNeighbours[i].getNode().getName());
+				}
+
 				lastEdge = possibleNeighbours[i].getEdge();
-                position = possibleNeighbours[i].getNode();
+				position = possibleNeighbours[i].getNode();
 				if(position.isFood()){
 					collectedFood = true;
 					lastPosition = null;
@@ -124,8 +124,8 @@ public class Ant {
 					return true;
 				}
 				break;
-            }
-        }
+			}
+		}
 		return false;
-    }
+	}
 }
