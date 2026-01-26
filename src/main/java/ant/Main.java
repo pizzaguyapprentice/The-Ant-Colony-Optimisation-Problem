@@ -32,6 +32,10 @@ public class Main{
 		file.createNewFile();
 		PrintWriter pw = new PrintWriter(file);
 
+		if(Main.DEBUG >= 1){
+			world.printWorld();
+		}
+
 		// START measuring time in seconds
 		Time time = new Time();
 		time.startTime();
@@ -43,9 +47,9 @@ public class Main{
 
 			HashMap<String, Double> totalPheromoneMap = new HashMap<String, Double>();
 
-			for(int j = 0; j < NUM_ANTS; j++){
+			for(int j = 1; j <= NUM_ANTS; j++){
 				if(Main.DEBUG >= 1){
-					System.out.printf("\nAnt %d\n", j);
+					System.out.printf("\nGen %d: Ant %d\n", i, j);
 				}
 
 				double totalDistance = 0;

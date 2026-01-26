@@ -36,19 +36,17 @@ public class World{
 
 		for(int i = 0; jreader.hasNext(); i++){
 			String name = jreader.nextString();
+			Node node;
 			if(i == 0){
-				Node node = new HomeNode(name);
-				nodeMap.put(name, node);
+				node = new HomeNode(name);
 			}
 			else if(!jreader.hasNext()){
-				Node node = new FoodNode(name);
-				node.setFood(true);
-				nodeMap.put(name, node);
+				node = new FoodNode(name);
 			}
 			else{
-				Node node = new Node(name);
-				nodeMap.put(name, node);
+				node = new Node(name);
 			}
+			nodeMap.put(name, node);
 		}
 
 		jreader.endArray();
@@ -86,22 +84,18 @@ public class World{
 		return (HomeNode) nodeMap.get("A");
 	}
 
+	public Node[] getAllNodes(){
+		return nodeMap.values().toArray(new Node[nodeMap.size()]);
+	}
+
+	public Edge[] getAllEdges(){
+		return edgeMap.values().toArray(new Edge[edgeMap.size()]);
+	}
+
 	public void printWorld(){
 		// For Loop To Print Out Generated Graph
 		for(String nodeName : nodeMap.keySet()){
-			String nodeType;
-
-			if(nodeMap.get(nodeName) instanceof HomeNode){
-				nodeType = "HomeNode";
-			}
-			else if(nodeMap.get(nodeName) instanceof FoodNode || nodeMap.get(nodeName).isFood()){
-				nodeType = "FoodNode";
-			}
-			else{
-				nodeType = "Node";
-			}
-
-			System.out.println(nodeType + ": " + nodeName);
+			System.out.println(nodeMap.get(nodeName).toString() + ": " + nodeName);
 
 			for(Path strings : nodeMap.get(nodeName).getNeighbours()){
 				System.out.printf("\tNeighbour: %s\tDistance: %f\n",strings.getNode().getName(), strings.getEdge().getDistance());
@@ -126,6 +120,8 @@ public class World{
 		}
 	}
 
+	// Remove This Method
+	// Should Create A Class For Outputting To A File
 	public void outputEdgePheromone(PrintWriter pw){
 		for(String edgeName: edgeMap.keySet()){
 			pw.printf("Edge %s: Pheromone Count: %f\n",edgeName, edgeMap.get(edgeName).getPheromone());

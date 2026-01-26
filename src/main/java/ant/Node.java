@@ -4,7 +4,6 @@ import java.util.ArrayList;
 public class Node{
 	private ArrayList<Path> neighbours = new ArrayList<>(0);
 	private String name;
-	private boolean isFoodNode = false;
 
 	public Node(String name){
 		this.name = name;
@@ -26,15 +25,6 @@ public class Node{
 		neighbours.remove(i);
 	}
 
-	public boolean hasNeighbour(Node node){
-		for(Path path : neighbours){
-			if(path.getNode() == node){
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public Path[] getNeighbours(){
 		return neighbours.toArray(new Path[0]);
 	}
@@ -43,29 +33,12 @@ public class Node{
 		return neighbours.size();
 	}
 
-	public boolean hasNeighbour(String name){
-		for(Path path : neighbours){
-			if(name.equals(path.getNode().getName())){
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public boolean isFood() {
-		return isFoodNode;
-	}
-
-	public void setFood(boolean bool) {
-		this.isFoodNode = bool;
 	}
 
 	public Path[] getNeighboursExcluding(Node... excludedNodes){
@@ -85,5 +58,30 @@ public class Node{
 			}
 		}
 		return isThisThePath.toArray(neighbourArray);
+	}
+
+	public boolean hasNeighbour(String name){
+		for(Path path : neighbours){
+			if(name.equals(path.getNode().getName())){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean hasNeighbour(Node node){
+		for(Path path : neighbours){
+			if(path.getNode() == node){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public String toString(){
+		// God I Will Be Killed For This
+		// Please Dont Read HomeNode And FoodNode
+		return "Node";
 	}
 }

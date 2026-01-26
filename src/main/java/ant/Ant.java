@@ -116,7 +116,7 @@ public class Ant {
 
 				lastEdge = possibleNeighbours[i].getEdge();
 				position = possibleNeighbours[i].getNode();
-				if(position.isFood()){
+				if(position instanceof FoodNode){
 					collectedFood = true;
 					lastPosition = null;
 				}
