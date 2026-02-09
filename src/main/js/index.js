@@ -1,6 +1,6 @@
 var svg = d3.select("svg")
-    .attr("width",600)
-    .attr("height",600);
+    .attr("width",1000)
+    .attr("height",1000);
     
 var width = +svg.attr("width");
 var height = +svg.attr("height");
@@ -20,7 +20,7 @@ function createGraph(graph){
             "link",
             d3.forceLink(graph.links)
                 .id(d => d.name)
-                .distance(d => d.distance *5)
+                .distance(d => d.distance *10)
         )
         .force("charge", d3.forceManyBody().strength(-400))
         .force("center", d3.forceCenter(width / 2, height / 2))
