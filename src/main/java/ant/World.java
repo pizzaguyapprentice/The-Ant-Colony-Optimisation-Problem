@@ -143,7 +143,7 @@ public class World{
 		}
 		w.endArray();
 
-		w.name("edges");
+		w.name("links");
 		w.beginArray();
 		for(String edgeName : edgeMap.keySet()){
 			w.beginObject();
