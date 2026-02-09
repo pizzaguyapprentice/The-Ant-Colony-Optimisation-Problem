@@ -18,20 +18,20 @@ public class Main{
 
 	// Number Of Ants Per Generation
 	public static final int NUM_ANTS = 100;
-	public static final int GENS = 1000;
+	public static final int GENS = 100;
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) throws IOException{
 		World world = new World();
 		Ant ant = new Ant(world.getStartNode());
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss:SSS");
+		SimpleDateFormat sdf = new SimpleDateFormat("HH-mm-ss-SSS");
 		Date date = new Date(System.currentTimeMillis());
 		File file = new File("src/main/resources/results/output-" + sdf.format(date) + ".txt");
 		File folder = new File("src/main/resources/results");
 		folder.mkdirs();
 		file.createNewFile();
 		PrintWriter pw = new PrintWriter(file);
-
+		
 		if(Main.DEBUG >= 1){
 			world.printWorld();
 		}
@@ -45,7 +45,7 @@ public class Main{
 				System.out.printf("\nStarted Generation %d\n", i);
 			}
 
-			HashMap<String, Double> totalPheromoneMap = new HashMap<String, Double>();
+			HashMap<String, Double> totalPheromoneMap = new HashMap<>();
 
 			for(int j = 1; j <= NUM_ANTS; j++){
 				if(Main.DEBUG >= 1){
@@ -81,12 +81,13 @@ public class Main{
 
 			world.dissipatePheromone(dissipationRate);
 
+
+			
 			for(String edgeName : totalPheromoneMap.keySet()){
 				world.updateEdgePheromone(edgeName, totalPheromoneMap.get(edgeName));
 			}
 
-			pw.println("Gen " + i);
-			world.outputEdgePheromone(pw);
+			world.outputEdgePheromone(pw, i);
 
 			if(Main.DEBUG >= 1){
 				world.printEdgePheromone();

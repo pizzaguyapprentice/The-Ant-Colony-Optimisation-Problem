@@ -186,10 +186,9 @@ public class World{
 
 	// Remove This Method
 	// Should Create A Class For Outputting To A File
-	public void outputEdgePheromone(PrintWriter pw){
+	public void outputEdgePheromone(PrintWriter pw, int i){
 		for(String edgeName: edgeMap.keySet()){
-			pw.printf("Edge %s: Pheromone Count: %f\n",edgeName, edgeMap.get(edgeName).getPheromone());
+			pw.printf("%s, %d, %f\n", edgeName, i, edgeMap.get(edgeName).getPheromone());
 		}
-		pw.println();
 	}
 }
