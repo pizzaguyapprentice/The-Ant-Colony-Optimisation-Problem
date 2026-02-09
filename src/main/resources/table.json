@@ -1,16 +1,24 @@
 {
-	"nodes": ["A", "B", "C", "D", "E", "F", "G"],
-	"edges": [
-		["A", "B", 10],
-		["A", "C", 7],
-		["A", "D", 12],
-		["B", "C", 3],
-		["B", "F", 15],
-		["C", "E", 8],
-		["C", "F", 5],
-		["D", "F", 2],
-		["E", "F", 8],
-		["E", "G", 6],
-		["F", "G", 9]
+	"nodes": [
+		{"name": "A"},
+		{"name": "B"},
+		{"name": "C"},
+		{"name": "D"},
+		{"name": "E"},
+		{"name": "F"},
+		{"name": "G"}
+	],
+	"links": [
+		{"source":"A", "target": "B", "pheromone": 1, "distance": 10},
+		{"source":"A", "target": "C", "pheromone": 1, "distance": 7},
+		{"source":"A", "target": "D", "pheromone": 1, "distance": 12},
+		{"source":"B", "target": "C", "pheromone": 1, "distance": 3},
+		{"source":"B", "target": "F", "pheromone": 1, "distance": 15},
+		{"source":"C", "target": "E", "pheromone": 1, "distance": 8},
+		{"source":"E", "target": "G", "pheromone": 1, "distance": 6},
+		{"source":"F", "target": "G", "pheromone": 1, "distance": 9},
+		{"source":"C", "target": "F", "pheromone": 1, "distance": 5},
+		{"source":"F", "target": "D", "pheromone": 1, "distance": 2}
+		
 	]
 }

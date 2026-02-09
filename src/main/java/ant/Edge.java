@@ -4,10 +4,10 @@ public class Edge{
 	private double pheromone;
 	private double distance;
 
-	public Edge(String name, double distance){
+	public Edge(String name, double distance, double pheromone){
 		this.name = name;
 		this.distance = distance;
-		this.pheromone = 1;
+		this.pheromone = pheromone;
 	}
 
 	public double getPheromone() {

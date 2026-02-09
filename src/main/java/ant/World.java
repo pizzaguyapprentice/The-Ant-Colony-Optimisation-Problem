@@ -38,7 +38,10 @@ public class World{
 		jreader.beginArray();
 
 		for(int i = 0; jreader.hasNext(); i++){
+			jreader.beginObject();
+			jreader.nextName();
 			String name = jreader.nextString();
+			jreader.endObject();
 			Node node;
 			if(i == 0){
 				node = new HomeNode(name);
@@ -57,11 +60,16 @@ public class World{
 		jreader.beginArray();
 
 		while(jreader.hasNext()){
-			jreader.beginArray();
+			jreader.beginObject();
+			jreader.nextName();
 			String firstNodeName = jreader.nextString();
+			jreader.nextName();
 			String secondNodeName = jreader.nextString();
+			jreader.nextName();
+			int pheromone = jreader.nextInt();
+			jreader.nextName();
 			int distance = jreader.nextInt();
-			jreader.endArray();
+			jreader.endObject();
 
 			Node firstNode = nodeMap.get(firstNodeName);
 			Node secondNode = nodeMap.get(secondNodeName);
@@ -71,7 +79,7 @@ public class World{
 				throw new NullPointerException("Adjecency To Non Existant Node");
 			}
 
-			Edge edge = new Edge((firstNodeName + secondNodeName).toLowerCase(), distance);
+			Edge edge = new Edge((firstNodeName + secondNodeName).toLowerCase(), distance, pheromone);
 			Path firstPath = new Path(secondNode, edge);
 			Path secondPath = new Path(firstNode, edge);
 			firstNode.addNeighbour(firstPath);
