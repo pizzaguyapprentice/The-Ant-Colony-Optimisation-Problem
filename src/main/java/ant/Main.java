@@ -31,7 +31,7 @@ public class Main{
 		folder.mkdirs();
 		file.createNewFile();
 		PrintWriter pw = new PrintWriter(file);
-		
+		pw.println("Edges, Generation, Pheromone");
 		if(Main.DEBUG >= 1){
 			world.printWorld();
 		}
@@ -81,8 +81,6 @@ public class Main{
 
 			world.dissipatePheromone(dissipationRate);
 
-
-			
 			for(String edgeName : totalPheromoneMap.keySet()){
 				world.updateEdgePheromone(edgeName, totalPheromoneMap.get(edgeName));
 			}
