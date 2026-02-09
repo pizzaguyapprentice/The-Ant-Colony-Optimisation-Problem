@@ -3,9 +3,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 
+import com.google.gson.FormattingStyle;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 public class World{
 	private HashMap<String, Edge> edgeMap = new HashMap<>();
@@ -118,6 +121,67 @@ public class World{
 		for(String edgeName: edgeMap.keySet()){
 			System.out.printf("Edge %s: Pheromone Count: %f\n",edgeName, edgeMap.get(edgeName).getPheromone());
 		}
+	}
+
+	public String outputWorldAsJson() throws IOException{
+		String json = "";
+		
+		StringWriter s = new StringWriter();
+
+		JsonWriter w = new JsonWriter(s);
+		w.setFormattingStyle(FormattingStyle.PRETTY);
+
+		w.beginObject();
+		w.name("nodes");
+
+		w.beginArray();
+		for(String nodeName : nodeMap.keySet()){
+			w.beginObject();
+			w.name("name");
+			w.value(nodeName);
+			w.endObject();
+		}
+		w.endArray();
+
+		w.name("edges");
+		w.beginArray();
+		for(String edgeName : edgeMap.keySet()){
+			w.beginObject();
+			
+			boolean found;
+			for(String nodeName : nodeMap.keySet()){
+				found = false;
+				for(int i = 0; i < nodeMap.get(nodeName).getNumOfNeighbours(); i++){
+					if(nodeMap.get(nodeName).getNeighbour(i).getEdge() == edgeMap.get(edgeName)){
+						w.name("source");
+						w.value(nodeName);
+
+						w.name("target");
+						w.value(nodeMap.get(nodeName).getNeighbour(i).getNode().getName());
+
+						found = true;
+						break;
+					}
+				}
+				if(found){
+					break;
+				}
+			}
+
+			w.name("pheromone");
+			w.value(edgeMap.get(edgeName).getPheromone());
+			w.name("distance");
+			w.value(edgeMap.get(edgeName).getDistance());
+			w.endObject();
+		}
+		w.endArray();
+
+
+		w.endObject();
+
+		json = s.toString();
+		w.close();
+		return json;
 	}
 
 	// Remove This Method

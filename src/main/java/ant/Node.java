@@ -2,8 +2,8 @@ package ant;
 import java.util.ArrayList;
 
 public class Node{
-	private ArrayList<Path> neighbours = new ArrayList<>(0);
 	private String name;
+	private transient ArrayList<Path> neighbours = new ArrayList<>(0);
 
 	public Node(String name){
 		this.name = name;
