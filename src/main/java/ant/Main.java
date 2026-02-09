@@ -8,17 +8,17 @@ import java.util.HashMap;
 
 public class Main{
 	// Debug Parameter For Extra Printing
-	public static final int DEBUG = 1;
+	public static final int DEBUG = 0;
 
 	// Global Parameters For ACO Problem
-	public static final double distanceImportance = 0.2;
+	public static final double distanceImportance = 0.1;
 	public static final double pheromoneImportance = 1.4;
 	public static final double dissipationRate = 0.2;
-	public static final double pheromoneRate = 5;
+	public static final double pheromoneRate = 4;
 
 	// Number Of Ants Per Generation
 	public static final int NUM_ANTS = 100;
-	public static final int GENS = 100;
+	public static final int GENS = 1000;
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) throws IOException{
