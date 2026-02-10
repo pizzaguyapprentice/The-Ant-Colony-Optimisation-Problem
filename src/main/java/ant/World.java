@@ -66,7 +66,7 @@ public class World{
 			jreader.nextName();
 			String secondNodeName = jreader.nextString();
 			jreader.nextName();
-			int pheromone = jreader.nextInt();
+			double pheromone = jreader.nextDouble();
 			jreader.nextName();
 			int distance = jreader.nextInt();
 			jreader.endObject();

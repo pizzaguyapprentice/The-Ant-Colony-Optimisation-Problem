@@ -10,7 +10,7 @@ import com.google.gson.FormattingStyle;
 import com.google.gson.stream.JsonWriter;
 
 public class WorldGenerator{
-	private int minConnections = 1;
+	private int minConnections = 2;
 	private int maxConnections = 5;
 
 	private int minNodes = 26;

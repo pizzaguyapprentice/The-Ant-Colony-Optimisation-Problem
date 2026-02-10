@@ -12,9 +12,9 @@ public class Main{
 
 	// Global Parameters For ACO Problem
 	public static final double distanceImportance = 0.1;
-	public static final double pheromoneImportance = 1.4;
-	public static final double dissipationRate = 0.2;
-	public static final double pheromoneRate = 4;
+	public static final double pheromoneImportance = 1.8;
+	public static final double dissipationRate = 0.15;
+	public static final double pheromoneRate = 3;
 
 	// Number Of Ants Per Generation
 	public static final int NUM_ANTS = 100;
@@ -90,6 +90,10 @@ public class Main{
 			if(Main.DEBUG >= 1){
 				world.printEdgePheromone();
 				System.out.printf("\nFinished Generation %d\n", i);
+			}
+
+			if(i == GENS){
+				System.out.println(world.outputWorldAsJson());
 			}
 		}
 		time.elapsedTime();
