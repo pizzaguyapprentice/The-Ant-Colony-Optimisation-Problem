@@ -4,11 +4,75 @@
         <link rel = "stylesheet">
         <title>D3 Node Graph</title>
         <script src="https://d3js.org/d3.v7.min.js"></script>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+            }
+            .controls {
+                margin-bottom: 20px;
+                padding: 15px;
+                background-color: #f0f0f0;
+                border-radius: 5px;
+            }
+            .control-group {
+                margin-bottom: 10px;
+            }
+            label {
+                font-weight: bold;
+                margin-right: 10px;
+            }
+            input, select, button {
+                padding: 8px;
+                margin-right: 10px;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+            }
+            button {
+                background-color: #4CAF50;
+                color: white;
+                cursor: pointer;
+            }
+            button:hover {
+                background-color: #45a049;
+            }
+            #iterationInfo {
+                margin-top: 10px;
+                font-weight: bold;
+                color: #333;
+            }
+        </style>
     </head>
 
     <body>
-        <h1>ACO Graph Node</h1>
-        <svg width="600" height="600"></svg>
+        <h1>ACO Graph Node </h1>
+        
+        
+        <div class="controls">
+            <div class="control-group">
+                <label>Output File:</label>
+                <select id="fileSelect" onchange="selectOutputFile()">
+                    <option value="">Loading files...</option>
+                </select>
+                <small id="fileInfo"></small>
+            </div>
+            
+            <div class="control-group">
+                <label>Search Iteration:</label>
+                <input type="number" id="iterationSearch" placeholder="Enter iteration number" min="1">
+                <button onclick="searchIteration()">Go to Iteration</button>
+            </div>
+            
+            <div class="control-group">
+                <label>View Every 10 Iterations:</label>
+                <select id="everyTenSelect" onchange="selectEveryTen()">
+                    <option value="">Custom</option>
+                </select>
+                <span id="iterationInfo"></span>
+            </div>
+        </div>
+
+        <svg width="1500" height="1500"></svg>
         <script src="index.js"></script>
     </body>
 </html>
