@@ -1,4 +1,4 @@
-package ant;
+package aco.world;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -76,7 +76,7 @@ public class World{
 
 			if(firstNode == null || secondNode == null){
 				jreader.close();
-				throw new NullPointerException("Adjecency To Non Existant Node");
+				throw new NullPointerException("Adjecency To Non Existaco-algorithims Node");
 			}
 
 			Edge edge = new Edge((firstNodeName + secondNodeName).toLowerCase(), distance, pheromone);

@@ -1,4 +1,4 @@
-package ant;
+package aco.world;
 public class Edge{
 	private String name;
 	private double pheromone;

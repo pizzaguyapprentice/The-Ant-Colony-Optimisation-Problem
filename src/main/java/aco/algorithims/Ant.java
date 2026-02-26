@@ -1,7 +1,14 @@
-package ant;
+package aco.algorithims;
 import java.io.FileNotFoundException;
 import java.security.SecureRandom;
 import java.util.HashMap;
+
+import aco.Main;
+import aco.world.Edge;
+import aco.world.FoodNode;
+import aco.world.HomeNode;
+import aco.world.Node;
+import aco.world.Path;
 
 public class Ant {
     private Node position;

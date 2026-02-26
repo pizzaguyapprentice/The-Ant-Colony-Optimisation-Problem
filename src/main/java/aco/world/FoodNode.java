@@ -1,4 +1,4 @@
-package ant;
+package aco.world;
 
 public class FoodNode extends Node{
     
