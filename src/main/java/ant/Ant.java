@@ -9,9 +9,15 @@ public class Ant {
     private boolean collectedFood = false;
 	public Edge lastEdge = null;
 	private HashMap<String, Edge> edgesTraversed = new HashMap<>();
+	private String solution = "";
 
-    public Ant(HomeNode homeNode){
+    public String getSolution() {
+		return solution;
+	}
+
+	public Ant(HomeNode homeNode){
         this.position = homeNode;
+		solution = homeNode.getName();
     }
 
     Node getPosition(){
@@ -48,6 +54,13 @@ public class Ant {
 
 	public void resetEdgesTraversed(){
 		edgesTraversed.clear();
+	}
+
+	public void resetAnt(){
+		resetEdgesTraversed();
+		solution = position.getName();
+		lastPosition = null;
+		collectedFood = false;
 	}
 
     public boolean nextAction() throws FileNotFoundException {
@@ -116,9 +129,13 @@ public class Ant {
 
 				lastEdge = possibleNeighbours[i].getEdge();
 				position = possibleNeighbours[i].getNode();
+
+				solution = solution + position.getName();
+
 				if(position instanceof FoodNode){
 					collectedFood = true;
 					lastPosition = null;
+					solution = solution + " " + position.getName();
 				}
 				if(position instanceof HomeNode && collectedFood){
 					return true;

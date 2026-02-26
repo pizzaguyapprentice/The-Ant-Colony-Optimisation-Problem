@@ -18,7 +18,7 @@ public class Main{
 
 	// Number Of Ants Per Generation
 	public static final int NUM_ANTS = 100;
-	public static final int GENS = 1000;
+	public static final int GENS = 100;
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) throws IOException{
@@ -47,6 +47,9 @@ public class Main{
 
 			HashMap<String, Double> totalPheromoneMap = new HashMap<>();
 
+			double bestDistance = -1;
+			String bestSolution = "";
+
 			for(int j = 1; j <= NUM_ANTS; j++){
 				if(Main.DEBUG >= 1){
 					System.out.printf("\nGen %d: Ant %d\n", i, j);
@@ -74,9 +77,14 @@ public class Main{
 						totalPheromoneMap.put(edgeName, pheromones);
 					}
 				}
-				ant.setLastPosition(null);
-				ant.resetEdgesTraversed();
-				ant.setCollectedFood(false);
+				// System.out.printf("Ant's Solution: %s\n", ant.getSolution());
+
+				if(bestDistance > totalDistance || bestDistance == -1){
+					bestDistance = totalDistance;
+					bestSolution = ant.getSolution();
+				}
+
+				ant.resetAnt();
 			}
 
 			world.dissipatePheromone(dissipationRate);
@@ -87,13 +95,17 @@ public class Main{
 
 			world.outputEdgePheromone(pw, i);
 
+			System.out.printf("Best %d Ant's Solution: %s\n", i , bestSolution);
+			bestDistance = -1;
+			bestSolution = "";
+
 			if(Main.DEBUG >= 1){
 				world.printEdgePheromone();
 				System.out.printf("\nFinished Generation %d\n", i);
 			}
 
 			if(i == GENS){
-				System.out.println(world.outputWorldAsJson());
+				// System.out.println(world.outputWorldAsJson());
 			}
 		}
 		time.elapsedTime();
