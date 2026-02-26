@@ -25,7 +25,7 @@ public class World{
 
 	private HomeNode createWorld() throws IOException{
 		// Gets The Adjacency Table File
-		File adjacencyTable = new File("src/main/resources/table.json");
+		File adjacencyTable = new File("src/main/resources/nodegraphd3.json");
 
 		// Readers To Create A JsonReader To Read The Json Table
 		FileReader freader = new FileReader(adjacencyTable);
