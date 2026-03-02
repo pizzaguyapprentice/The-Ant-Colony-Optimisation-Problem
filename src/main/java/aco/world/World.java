@@ -1,9 +1,14 @@
 package aco.world;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.StringReader;
 import java.io.StringWriter;
+import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gson.FormattingStyle;
@@ -16,20 +21,28 @@ public class World{
 	private final HomeNode startNode;
 
 	public World() throws IOException{
-		startNode = createWorld();
+		StringReader sr = new StringReader(generateNewWorld());
+		startNode = createWorld(sr);
+	}
+
+	public World(File file) throws IOException{
+		FileReader fr = new FileReader(file);
+		startNode = createWorld(fr);
+	}
+
+	public World(String json) throws IOException{
+		StringReader sr = new StringReader(json);
+		startNode = createWorld(sr);
 	}
 
 	public HomeNode getStartNode(){
 		return startNode;
 	}
 
-	private HomeNode createWorld() throws IOException{
-		// Gets The Adjacency Table File
-		File adjacencyTable = new File("src/main/resources/nodegraphd3.json");
-
+	private HomeNode createWorld(Reader r) throws IOException{
 		// Readers To Create A JsonReader To Read The Json Table
-		FileReader freader = new FileReader(adjacencyTable);
-		JsonReader jreader = new JsonReader(freader);
+		
+		JsonReader jreader = new JsonReader(r);
 		jreader.beginObject();
 
 		// For loop To Read The File
@@ -198,5 +211,148 @@ public class World{
 		for(String edgeName: edgeMap.keySet()){
 			pw.printf("%s, %d, %f\n", edgeName, i, edgeMap.get(edgeName).getPheromone());
 		}
+	}
+
+	private static int minConnections = 2;
+	private static int maxConnections = 2;
+
+	private static int minNodes = 26;
+	private static int maxNodes = 26;
+
+	private static int minDistance = 2;
+	private static int maxDistance = 20;
+
+	private static int minRegionConnections = 2;
+	private static int maxRegionConnections = 3;
+
+	public static String generateNewWorld() throws IOException{
+		SecureRandom r = new SecureRandom();
+
+		int noOfNodes = r.nextInt(minNodes, maxNodes+1);
+		ArrayList<Character> nodes = new ArrayList<Character>(noOfNodes);
+		HashMap<Character, ArrayList<Character>> neighbourMap = new HashMap<>();
+		ArrayList<Region> regions = new ArrayList<>(0);
+
+		String json = "";
+		
+		StringWriter s = new StringWriter();
+
+		JsonWriter w = new JsonWriter(s);
+		w.setFormattingStyle(FormattingStyle.PRETTY);
+
+		w.beginObject();
+		w.name("nodes");
+
+		w.beginArray();
+
+		int i;
+		for(i = 0; i < noOfNodes; i++){
+			char c = (char) (65 + i);
+			nodes.add(c);
+			neighbourMap.put(c, new ArrayList<Character>(0));
+
+			w.beginObject();
+			w.name("name");
+			w.value(c + "");
+			w.endObject();
+		}
+		w.endArray();
+
+		w.name("links");
+
+		w.beginArray();
+		for(i = 0; i < nodes.size(); i++){
+			Character node = nodes.get(i);
+			Region nodeRegion = null;
+
+			if(regions.isEmpty()){
+				Region newRegion = new Region();
+				newRegion.addNode(node);
+				regions.add(newRegion);
+				nodeRegion = newRegion;
+			}
+
+			for(int j = 0; j < regions.size(); j++){
+				Region region = regions.get(j);
+				if(region.isInRegion(node)){
+					nodeRegion = region;
+					break;
+				}
+				if(j == regions.size() - 1){
+					Region newRegion = new Region();
+					newRegion.addNode(node);
+					regions.add(newRegion);
+					nodeRegion = newRegion;
+					break;
+				}
+			}
+
+			int edges = r.nextInt(minConnections, maxConnections+1);
+
+			if (neighbourMap.get(node).size() >= edges){
+				continue;
+			}
+
+			for(int j = 0; j < edges; j++){
+				ArrayList<Character> possibleNeighbours = (ArrayList<Character>) nodes.clone();
+				possibleNeighbours.remove(node);
+				possibleNeighbours.removeAll(neighbourMap.get(node));
+
+				if (possibleNeighbours.size() == 0) {
+					break;
+				}
+
+				w.beginObject();
+
+				Character newNeighbour = possibleNeighbours.get(r.nextInt(0, possibleNeighbours.size()));
+				nodeRegion.addNode(newNeighbour);
+				if(node < newNeighbour){
+					System.out.printf("%s\n", "" + node + newNeighbour);
+					w.name("source");
+					w.value(node + "");
+
+					w.name("target");
+					w.value(newNeighbour + "");
+				}
+				else if(node > newNeighbour){
+					System.out.printf("%s\n", "" + newNeighbour + node);
+					w.name("source");
+					w.value(newNeighbour + "");
+
+					w.name("target");
+					w.value(node + "");
+				}
+				neighbourMap.get(node).add(newNeighbour);
+				neighbourMap.get(newNeighbour).add(node);
+
+				w.name("pheromone");
+				w.value(1);
+				w.name("distance");
+				w.value(r.nextInt(minDistance, maxDistance + 1));
+				w.endObject();
+			}
+		}
+		w.endArray();
+
+		w.endObject();
+
+		w.close();
+
+		json = s.toString();
+
+		// File folder = new File("src/main/resources/worlds");
+		File file = new File("src/main/resources/nodegraphd3.json");
+		// folder.mkdirs();
+		file.createNewFile();
+
+		FileWriter fw = new FileWriter(file);
+
+		fw.write(json);
+
+		fw.close();
+
+		System.out.println(json);
+
+		return json;
 	}
 }
