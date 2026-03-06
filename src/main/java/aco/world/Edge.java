@@ -1,6 +1,8 @@
 package aco.world;
 public class Edge{
 	private String name;
+	private Node source;
+	private Node target;
 	private double pheromone;
 	private double distance;
 
@@ -44,5 +46,33 @@ public class Edge{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Node getSource() {
+		return source;
+	}
+
+	public void setSource(Node source) {
+		this.source = source;
+	}
+
+	public Node getTarget() {
+		return target;
+	}
+
+	public void setTarget(Node target) {
+		this.target = target;
+	}
+
+	public Node getOtherNode(Node node){
+		if (node == source) {
+			return target;
+		}
+		else if (node == target) {
+			return source;
+		}
+		else{
+			return null;
+		}
 	}
 }

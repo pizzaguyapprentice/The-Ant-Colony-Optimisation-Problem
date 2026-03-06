@@ -12,7 +12,7 @@ import aco.world.World;
 
 public class Main{
 	// Debug Parameter For Extra Printing
-	public static final int DEBUG = 0;
+	public static final int DEBUG = 1;
 
 	// Global Parameters For ACO Problem
 	public static final double distanceImportance = 0.1;

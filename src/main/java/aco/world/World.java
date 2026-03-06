@@ -93,10 +93,10 @@ public class World{
 			}
 
 			Edge edge = new Edge((firstNodeName + secondNodeName).toLowerCase(), distance, pheromone);
-			Path firstPath = new Path(secondNode, edge);
-			Path secondPath = new Path(firstNode, edge);
-			firstNode.addNeighbour(firstPath);
-			secondNode.addNeighbour(secondPath);
+			edge.setSource(firstNode);
+			edge.setTarget(secondNode);
+			firstNode.addNeighbour(edge);
+			secondNode.addNeighbour(edge);
 			edgeMap.put(edge.getName(), edge);
 		}
 
@@ -121,9 +121,9 @@ public class World{
 		for(String nodeName : nodeMap.keySet()){
 			System.out.println(nodeMap.get(nodeName).toString() + ": " + nodeName);
 
-			for(Path strings : nodeMap.get(nodeName).getNeighbours()){
-				System.out.printf("\tNeighbour: %s\tDistance: %f\n",strings.getNode().getName(), strings.getEdge().getDistance());
-			}
+			// for(Path strings : nodeMap.get(nodeName).getNeighbours()){
+			// 	System.out.printf("\tNeighbour: %s\tDistance: %f\n",strings.getNode().getName(), strings.getEdge().getDistance());
+			// }
 			System.out.println();
 		}
 	}
@@ -168,26 +168,12 @@ public class World{
 		w.beginArray();
 		for(String edgeName : edgeMap.keySet()){
 			w.beginObject();
-			
-			boolean found;
-			for(String nodeName : nodeMap.keySet()){
-				found = false;
-				for(int i = 0; i < nodeMap.get(nodeName).getNumOfNeighbours(); i++){
-					if(nodeMap.get(nodeName).getNeighbour(i).getEdge() == edgeMap.get(edgeName)){
-						w.name("source");
-						w.value(nodeName);
 
-						w.name("target");
-						w.value(nodeMap.get(nodeName).getNeighbour(i).getNode().getName());
+			w.name("source");
+			w.value(edgeMap.get(edgeName).getSource().getName());
 
-						found = true;
-						break;
-					}
-				}
-				if(found){
-					break;
-				}
-			}
+			w.name("target");
+			w.value(edgeMap.get(edgeName).getTarget().getName());
 
 			w.name("pheromone");
 			w.value(edgeMap.get(edgeName).getPheromone());
