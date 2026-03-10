@@ -1,6 +1,7 @@
 package aco;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AnalysisTools {
@@ -13,31 +14,39 @@ public class AnalysisTools {
         File[] files = AnalysisTools.getOutputFiles();
         for (int i = 0; i < files.length; i++) {
             //File fileOutput = new File(getConvergedPath(files[i]));
-
             Scanner reader = new Scanner(files[i]);
             System.out.println("File: " + files[i]);
 
+            
             String[] secondTokens = {null,null,null};
-
-             while(reader.hasNextLine()){
+            
+            while(reader.hasNextLine()){
+                // READ FROM THE  LINE
                 String data = reader.nextLine();
-                String[] firstTokens = data.split(",");
-                System.out.println("\t" + firstTokens[0] + ", " + firstTokens[1] + " " + firstTokens[2]);
-                
-                if (secondTokens[0] == null) {
+                //! Skip the initial row of edge,gen,pheromone
+                if (data.startsWith("Edges")) {
                     continue;
                 }
-                else if (secondTokens[0] != null) {
-                    double firstTokenPheromone = Double.parseDouble(firstTokens[2]);
-                    double secondTokenPheromone = Double.parseDouble(secondTokens[2]);
-                    
+
+                //! Split the data into tokens
+                String[] firstTokens = data.split(",");
+
+                //! First row of edge,gen,pheromone needs to be compared to the second generation
+            
+                ArrayList<String> firstGen = new ArrayList<>();
+                ArrayList<String> secondGen = new ArrayList<>();
+
+                while (firstTokens[1] == secondTokens[1]) { 
+                    firstGen.add(firstTokens[0]);
+                    firstGen.add(firstTokens[1]);
+                    firstGen.add(firstTokens[2]);
                 }
+                System.out.println("");
+
+                secondGen.deepCop
                 
                 
-                
-                secondTokens = firstTokens;
-                
-             }
+            }
              
             System.out.println(files[i]);
         }
