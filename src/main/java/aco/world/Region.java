@@ -1,4 +1,4 @@
-package aco.world.generator;
+package aco.world;
 
 import java.util.ArrayList;
 

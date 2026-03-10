@@ -8,7 +8,6 @@ import aco.world.Edge;
 import aco.world.FoodNode;
 import aco.world.HomeNode;
 import aco.world.Node;
-import aco.world.Path;
 
 public class Ant {
     private Node position;
@@ -75,7 +74,7 @@ public class Ant {
         // pheromoneHolder stores full values of the total pheromone of each path.
         // These values will then be used to calculate the visibility metrics for each path in the VisibilityArray
 
-		Path neighbours[] = position.getNeighboursExcluding(lastPosition);
+		Edge neighbours[] = position.getNeighboursExcluding(lastPosition);
 		double visibilityArray[] = new double[neighbours.length];
 		double pathProbabilityArray[] = new double[neighbours.length];
         double visibilityTotal = 0;
@@ -89,14 +88,14 @@ public class Ant {
     }
 
     // Using the formula in the ACO problem to calculate the heuristic and visibility.
-    private double setVisibility(Path[] neighbours, double[] visibilityArray){
+    private double setVisibility(Edge[] neighbours, double[] visibilityArray){
 		double visibilityTotal = 0;
 
 		for(int i = 0; i < neighbours.length; i++){
-            double reciprocal = 1/neighbours[i].getEdge().getDistance();
+            double reciprocal = 1/neighbours[i].getDistance();
 			reciprocal = Math.pow(reciprocal, Main.distanceImportance);
 
-			double pheromone = neighbours[i].getEdge().getPheromone();
+			double pheromone = neighbours[i].getPheromone();
 			pheromone = Math.pow(pheromone, Main.pheromoneImportance);
 
 			double visibility = pheromone * reciprocal;
@@ -118,7 +117,7 @@ public class Ant {
     }
 
     // Generate random number, check where it lands and traverse it.
-	private Boolean chooseNextPath(Path[] possibleNeighbours, double[] pathProbabilityArray){
+	private Boolean chooseNextPath(Edge[] possibleNeighbours, double[] pathProbabilityArray){
 		double randomNumber = new SecureRandom().nextDouble();
 		double incrementedDecision = 0;
 
@@ -127,15 +126,15 @@ public class Ant {
 			if(randomNumber < incrementedDecision){
 				lastPosition = position;
 
-				edgesTraversed.put(possibleNeighbours[i].getEdge().getName(), possibleNeighbours[i].getEdge());
+				edgesTraversed.put(possibleNeighbours[i].getName(), possibleNeighbours[i]);
 
 				if(Main.DEBUG >= 1){
 					System.out.println("Current position: " + position.getName());
-					System.out.println("Moving onto: " + possibleNeighbours[i].getNode().getName());
+					System.out.println("Moving onto: " + possibleNeighbours[i].getOtherNode(position).getName());
 				}
 
-				lastEdge = possibleNeighbours[i].getEdge();
-				position = possibleNeighbours[i].getNode();
+				lastEdge = possibleNeighbours[i];
+				position = possibleNeighbours[i].getOtherNode(position);
 
 				solution = solution + position.getName();
 

@@ -3,21 +3,24 @@ import java.util.ArrayList;
 
 public class Node{
 	private String name;
-	private transient ArrayList<Path> neighbours = new ArrayList<>(0);
+	private transient ArrayList<Edge> neighbours = new ArrayList<>(0);
 
 	public Node(String name){
 		this.name = name;
 	}
 
-	public Path getNeighbour(int i){
-		return neighbours.get(i);
+	public Node getNeighbour(int i){
+		if(neighbours.get(i).getSource() == this){
+			return neighbours.get(i).getTarget();
+		}
+		return neighbours.get(i).getSource();
 	}
 
-	public void setNeighbour(int i, Path path){
+	public void setNeighbour(int i, Edge path){
 		neighbours.set(i, path);
 	}
 
-	public void addNeighbour(Path path){
+	public void addNeighbour(Edge path){
 		neighbours.add(path);
 	}
 
@@ -25,8 +28,8 @@ public class Node{
 		neighbours.remove(i);
 	}
 
-	public Path[] getNeighbours(){
-		return neighbours.toArray(new Path[0]);
+	public Edge[] getNeighbours(){
+		return neighbours.toArray(new Edge[0]);
 	}
 
 	public int getNumOfNeighbours(){
@@ -41,18 +44,18 @@ public class Node{
 		this.name = name;
 	}
 
-	public Path[] getNeighboursExcluding(Node... excludedNodes){
+	public Edge[] getNeighboursExcluding(Node... excludedNodes){
 		if(excludedNodes == null){
 			return getNeighbours();
 		}
 
-		Path[] neighbourArray = new Path[neighbours.size() - excludedNodes.length];
+		Edge[] neighbourArray = new Edge[neighbours.size() - excludedNodes.length];
 
-		ArrayList<Path> isThisThePath = (ArrayList<Path>) neighbours.clone();
+		ArrayList<Edge> isThisThePath = (ArrayList<Edge>) neighbours.clone();
 
 		for(int i = 0; i < neighbours.size(); i++){
 			for (int j = 0; j < excludedNodes.length; j++) {
-				if(neighbours.get(i).getNode().equals(excludedNodes[j])) {
+				if(getNeighbour(i).equals(excludedNodes[j])) {
 					isThisThePath.remove(neighbours.get(i));
 				}
 			}
@@ -61,8 +64,8 @@ public class Node{
 	}
 
 	public boolean hasNeighbour(String name){
-		for(Path path : neighbours){
-			if(name.equals(path.getNode().getName())){
+		for(Edge path : neighbours){
+			if(name.equals(path.getOtherNode(this).getName())){
 				return true;
 			}
 		}
@@ -70,8 +73,8 @@ public class Node{
 	}
 
 	public boolean hasNeighbour(Node node){
-		for(Path path : neighbours){
-			if(path.getNode() == node){
+		for(Edge path : neighbours){
+			if(path.getOtherNode(this) == node){
 				return true;
 			}
 		}

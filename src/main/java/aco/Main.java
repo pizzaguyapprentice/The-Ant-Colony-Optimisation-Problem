@@ -12,7 +12,7 @@ import aco.world.World;
 
 public class Main{
 	// Debug Parameter For Extra Printing
-	public static final int DEBUG = 0;
+	public static final int DEBUG = 1;
 
 	// Global Parameters For ACO Problem
 	public static final double distanceImportance = 0.1;
@@ -26,7 +26,7 @@ public class Main{
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) throws IOException{
-		World world = new World();
+		World world = new World(new File("src/main/resources/nodegraphd3.json"));
 		Ant ant = new Ant(world.getStartNode());
 		SimpleDateFormat sdf = new SimpleDateFormat("HH-mm-ss-SSS");
 		Date date = new Date(System.currentTimeMillis());
@@ -99,7 +99,7 @@ public class Main{
 
 			world.outputEdgePheromone(pw, i);
 
-			System.out.printf("Best %d Ant's Solution: %s\n", i , bestSolution);
+			System.out.printf("Gen %d Best Ant's Solution: %s\n", i , bestSolution);
 			bestDistance = -1;
 			bestSolution = "";
 
