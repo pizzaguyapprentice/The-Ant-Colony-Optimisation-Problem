@@ -13,11 +13,15 @@ public class Ant {
     private Node position;
     private Node lastPosition = null;
     private boolean collectedFood = false;
-	public Edge lastEdge = null;
 	private HashMap<String, Edge> edgesTraversed = new HashMap<>();
 	private String solution = "";
+	private double distanceTraveled = 0;
 
-    public String getSolution() {
+    public double getDistanceTraveled() {
+		return distanceTraveled;
+	}
+
+	public String getSolution() {
 		return solution;
 	}
 
@@ -67,6 +71,7 @@ public class Ant {
 		solution = position.getName();
 		lastPosition = null;
 		collectedFood = false;
+		distanceTraveled = 0;
 	}
 
     public boolean nextAction() throws FileNotFoundException {
@@ -133,7 +138,7 @@ public class Ant {
 					System.out.println("Moving onto: " + possibleNeighbours[i].getOtherNode(position).getName());
 				}
 
-				lastEdge = possibleNeighbours[i];
+				distanceTraveled = distanceTraveled + possibleNeighbours[i].getDistance();
 				position = possibleNeighbours[i].getOtherNode(position);
 
 				solution = solution + position.getName();

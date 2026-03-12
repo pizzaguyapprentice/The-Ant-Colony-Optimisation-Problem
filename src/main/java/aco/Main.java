@@ -1,7 +1,6 @@
 package aco;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,7 +23,7 @@ public class Main{
 	public static final int NUM_ANTS = 100;
 	public static final int GENS = 100;
 
-	@SuppressWarnings("unused")
+	// @SuppressWarnings("unused")
 	public static void main(String[] args) throws IOException{
 		World world = new World(new File("src/main/resources/nodegraphd3.json"));
 		Ant ant = new Ant(world.getStartNode());
@@ -34,8 +33,9 @@ public class Main{
 		File folder = new File("src/main/resources/results");
 		folder.mkdirs();
 		file.createNewFile();
-		PrintWriter pw = new PrintWriter(file);
-		pw.println("Edges, Generation, Pheromone");
+
+		StatPrinter sp = new StatPrinter(file);
+
 		if(Main.DEBUG >= 1){
 			world.printWorld();
 		}
@@ -61,10 +61,10 @@ public class Main{
 
 				double totalDistance = 0;
 				while(!ant.nextAction()){
-					totalDistance = totalDistance + ant.lastEdge.getDistance();
 				}
-				totalDistance = totalDistance + ant.lastEdge.getDistance();
-				
+
+				totalDistance = ant.getDistanceTraveled();
+
 				if(Main.DEBUG >= 1){
 					System.out.printf("Total Distance: %f\n", totalDistance);
 				}
@@ -97,7 +97,7 @@ public class Main{
 				world.updateEdgePheromone(edgeName, totalPheromoneMap.get(edgeName));
 			}
 
-			world.outputEdgePheromone(pw, i);
+			sp.outputEdgePheromone(world, i);
 
 			System.out.printf("Gen %d Best Ant's Solution: %s\n", i , bestSolution);
 			bestDistance = -1;
@@ -113,6 +113,6 @@ public class Main{
 			}
 		}
 		time.elapsedTime();
-		pw.close();
+		sp.close();
 	}
 }

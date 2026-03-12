@@ -3,7 +3,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -191,14 +190,6 @@ public class World{
 		return json;
 	}
 
-	// Remove This Method
-	// Should Create A Class For Outputting To A File
-	public void outputEdgePheromone(PrintWriter pw, int i){
-		for(String edgeName: edgeMap.keySet()){
-			pw.printf("%s, %d, %f\n", edgeName, i, edgeMap.get(edgeName).getPheromone());
-		}
-	}
-
 	private static int minConnections = 2;
 	private static int maxConnections = 2;
 
@@ -208,8 +199,8 @@ public class World{
 	private static int minDistance = 2;
 	private static int maxDistance = 20;
 
-	private static int minRegionConnections = 2;
-	private static int maxRegionConnections = 3;
+	// private static int minRegionConnections = 2;
+	// private static int maxRegionConnections = 3;
 
 	public static String generateNewWorld() throws IOException{
 		SecureRandom r = new SecureRandom();
