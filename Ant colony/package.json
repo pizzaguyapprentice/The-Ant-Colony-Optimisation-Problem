@@ -1,0 +1,21 @@
+{
+  "name": "the-ant-colony-optimisation-problem",
+  "version": "1.0.0",
+  "description": "``` The goal of this project is to visualize and simulated the ant colony optimisation problem , and further our understanding of programming ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pizzaguyapprentice/The-Ant-Colony-Optimisation-Problem.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/pizzaguyapprentice/The-Ant-Colony-Optimisation-Problem/issues"
+  },
+  "homepage": "https://github.com/pizzaguyapprentice/The-Ant-Colony-Optimisation-Problem#readme"
+}
