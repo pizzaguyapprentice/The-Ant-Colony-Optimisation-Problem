@@ -29,10 +29,10 @@ public class World{
 		startNode = createWorld(fr);
 	}
 
-	public World(String json) throws IOException{
-		StringReader sr = new StringReader(json);
-		startNode = createWorld(sr);
-	}
+	// public World(String json) throws IOException{
+	// 	StringReader sr = new StringReader(json);
+	// 	startNode = createWorld(sr);
+	// }
 
 	public HomeNode getStartNode(){
 		return startNode;
@@ -88,7 +88,7 @@ public class World{
 
 			if(firstNode == null || secondNode == null){
 				jreader.close();
-				throw new NullPointerException("Adjecency To Non Existaco-algorithims Node");
+				throw new NullPointerException("Adjecency To Non Existant Node");
 			}
 
 			Edge edge = new Edge((firstNodeName + secondNodeName).toLowerCase(), distance, pheromone);
@@ -318,15 +318,15 @@ public class World{
 		json = s.toString();
 
 		// File folder = new File("src/main/resources/worlds");
-		File file = new File("src/main/resources/nodegraphd3.json");
+		// File file = new File("src/main/resources/nodegraphd3.json");
 		// folder.mkdirs();
-		file.createNewFile();
+		// file.createNewFile();
 
-		FileWriter fw = new FileWriter(file);
+		// FileWriter fw = new FileWriter(file);
 
-		fw.write(json);
+		// fw.write(json);
 
-		fw.close();
+		// fw.close();
 
 		System.out.println(json);
 
