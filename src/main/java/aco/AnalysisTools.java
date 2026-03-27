@@ -43,7 +43,7 @@ public class AnalysisTools {
                 }
                 System.out.println("");
 
-                secondGen.deepCop
+                //secondGen.deepCop
                 
                 
             }

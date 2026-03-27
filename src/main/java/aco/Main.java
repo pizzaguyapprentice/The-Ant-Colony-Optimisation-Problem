@@ -71,7 +71,10 @@ public class Main{
 			world = new World(worldFile);
 		}
 
+
 		Ant ant = new Ant(world.getStartNode());
+		//EAnt ant = new EAnt(world.getStartNode());
+
 		SimpleDateFormat sdf = new SimpleDateFormat("HH-mm-ss-SSS");
 		Date date = new Date(System.currentTimeMillis());
 		// I Want To Change This Ones Folder But That Would Require Changing Stuff In The js Which I Unfamiliar With
@@ -163,4 +166,18 @@ public class Main{
 		time.elapsedTime();
 		sp.close();
 	}
+
+
+	//! Testing Elitist Ant System methods in Main
+
+	int globalBestDistance = -1;
+	String globablBestSolution = "";
+	HashMap<String,Edge> globalBestEdges = new HashMap<>();
+
+	//
+	public void elitistPheromoneReinforcement(){
+
+	}
+
+
 }
