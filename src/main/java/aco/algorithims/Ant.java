@@ -74,6 +74,10 @@ public class Ant {
 		distanceTraveled = 0;
 	}
 
+	public AntResult getResults(){
+		return new AntResult(distanceTraveled, solution, edgesTraversed.values().toArray(new Edge[0]));
+	}
+
     public boolean nextAction() throws FileNotFoundException {
         // distanceHolder stores full values for the distances of each path e.g 10 , 15 , 20
         // pheromoneHolder stores full values of the total pheromone of each path.
