@@ -3,19 +3,19 @@ package aco.world;
 import java.util.ArrayList;
 
 public class Region{
-	private ArrayList<Character> connectedNodes = new ArrayList<>(0);
+	private ArrayList<String> connectedNodes = new ArrayList<>(0);
 
-	public void addNode(char node){
+	public void addNode(String node){
 		connectedNodes.add(node);
 	}
 
-	public ArrayList<Character> getNodes(){
+	public ArrayList<String> getNodes(){
 		return connectedNodes;
 	}
 
-	public boolean isInRegion(char node){
-		for (char string : connectedNodes) {
-			if (string == node) {
+	public boolean isInRegion(String node){
+		for (String string : connectedNodes) {
+			if (string.equals(node)){
 				return true;
 			}
 		}

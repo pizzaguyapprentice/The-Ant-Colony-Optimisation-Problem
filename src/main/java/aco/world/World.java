@@ -1,7 +1,6 @@
 package aco.world;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -16,7 +15,7 @@ import com.google.gson.stream.JsonWriter;
 
 public class World{
 	private HashMap<String, Edge> edgeMap = new HashMap<>();
-	private HashMap<String, Node> nodeMap = new HashMap<>();
+	private Node[] nodeMap;
 	private final HomeNode startNode;
 
 	public World() throws IOException{
@@ -49,6 +48,9 @@ public class World{
 		jreader.nextName();
 		jreader.beginArray();
 
+		HashMap<String, Node> tempNodeMap = new HashMap<>();
+		HomeNode homenode = null;
+
 		for(int i = 0; jreader.hasNext(); i++){
 			jreader.beginObject();
 			jreader.nextName();
@@ -57,6 +59,7 @@ public class World{
 			Node node;
 			if(i == 0){
 				node = new HomeNode(name);
+				homenode = (HomeNode) node;
 			}
 			else if(!jreader.hasNext()){
 				node = new FoodNode(name);
@@ -64,8 +67,10 @@ public class World{
 			else{
 				node = new Node(name);
 			}
-			nodeMap.put(name, node);
+			tempNodeMap.put(name, node);
 		}
+
+		nodeMap = tempNodeMap.values().toArray(new Node[tempNodeMap.size()]);
 
 		jreader.endArray();
 		jreader.nextName();
@@ -83,8 +88,8 @@ public class World{
 			int distance = jreader.nextInt();
 			jreader.endObject();
 
-			Node firstNode = nodeMap.get(firstNodeName);
-			Node secondNode = nodeMap.get(secondNodeName);
+			Node firstNode = tempNodeMap.get(firstNodeName);
+			Node secondNode = tempNodeMap.get(secondNodeName);
 
 			if(firstNode == null || secondNode == null){
 				jreader.close();
@@ -104,11 +109,15 @@ public class World{
 
 		jreader.close();
 		
-		return (HomeNode) nodeMap.get("A");
+		if(homenode == null){
+			throw new NullPointerException("HomeNode Is Null. There May Be Errors In Json.");
+		}
+
+		return homenode;
 	}
 
 	public Node[] getAllNodes(){
-		return nodeMap.values().toArray(new Node[nodeMap.size()]);
+		return nodeMap.clone();
 	}
 
 	public Edge[] getAllEdges(){
@@ -117,8 +126,8 @@ public class World{
 
 	public void printWorld(){
 		// For Loop To Print Out Generated Graph
-		for(String nodeName : nodeMap.keySet()){
-			System.out.println(nodeMap.get(nodeName).toString() + ": " + nodeName);
+		for(Node node : nodeMap){
+			System.out.println(node.toString() + ": " + node.getName());
 
 			// for(Path strings : nodeMap.get(nodeName).getNeighbours()){
 			// 	System.out.printf("\tNeighbour: %s\tDistance: %f\n",strings.getNode().getName(), strings.getEdge().getDistance());
@@ -155,10 +164,10 @@ public class World{
 		w.name("nodes");
 
 		w.beginArray();
-		for(String nodeName : nodeMap.keySet()){
+		for(Node node : nodeMap){
 			w.beginObject();
 			w.name("name");
-			w.value(nodeName);
+			w.value(node.getName());
 			w.endObject();
 		}
 		w.endArray();
@@ -206,15 +215,20 @@ public class World{
 		SecureRandom r = new SecureRandom();
 
 		int noOfNodes = r.nextInt(minNodes, maxNodes+1);
-		ArrayList<Character> nodes = new ArrayList<Character>(noOfNodes);
-		HashMap<Character, ArrayList<Character>> neighbourMap = new HashMap<>();
+		ArrayList<String> nodes = new ArrayList<String>(noOfNodes);
+		HashMap<String, ArrayList<String>> neighbourMap = new HashMap<>();
 		ArrayList<Region> regions = new ArrayList<>(0);
+		boolean bigFormat = false;
+
+		if(noOfNodes > 26){
+			bigFormat = true;
+		}
 
 		String json = "";
 		
-		StringWriter s = new StringWriter();
+		StringWriter sw = new StringWriter();
 
-		JsonWriter w = new JsonWriter(s);
+		JsonWriter w = new JsonWriter(sw);
 		w.setFormattingStyle(FormattingStyle.PRETTY);
 
 		w.beginObject();
@@ -224,13 +238,25 @@ public class World{
 
 		int i;
 		for(i = 0; i < noOfNodes; i++){
-			char c = (char) (65 + i);
-			nodes.add(c);
-			neighbourMap.put(c, new ArrayList<Character>(0));
+			int charNum = i % 26;
+			int rollover = i / 26;
+
+			char c = (char) (65 + charNum);
+			String s;
+
+			if (bigFormat) {
+				s = "" + c + rollover;
+			}
+			else{
+				s = "" + c;
+			}
+		
+			nodes.add(s);
+			neighbourMap.put(s, new ArrayList<String>(0));
 
 			w.beginObject();
 			w.name("name");
-			w.value(c + "");
+			w.value(s);
 			w.endObject();
 		}
 		w.endArray();
@@ -239,7 +265,7 @@ public class World{
 
 		w.beginArray();
 		for(i = 0; i < nodes.size(); i++){
-			Character node = nodes.get(i);
+			String node = nodes.get(i);
 			Region nodeRegion = null;
 
 			if(regions.isEmpty()){
@@ -271,7 +297,7 @@ public class World{
 			}
 
 			for(int j = 0; j < edges; j++){
-				ArrayList<Character> possibleNeighbours = (ArrayList<Character>) nodes.clone();
+				ArrayList<String> possibleNeighbours = (ArrayList<String>) nodes.clone();
 				possibleNeighbours.remove(node);
 				possibleNeighbours.removeAll(neighbourMap.get(node));
 
@@ -281,24 +307,24 @@ public class World{
 
 				w.beginObject();
 
-				Character newNeighbour = possibleNeighbours.get(r.nextInt(0, possibleNeighbours.size()));
+				String newNeighbour = possibleNeighbours.get(r.nextInt(0, possibleNeighbours.size()));
 				nodeRegion.addNode(newNeighbour);
-				if(node < newNeighbour){
-					System.out.printf("%s\n", "" + node + newNeighbour);
-					w.name("source");
-					w.value(node + "");
+				// if(node < newNeighbour){
+					// System.out.printf("%s\n", "" + node + newNeighbour);
+				w.name("source");
+				w.value(node + "");
 
-					w.name("target");
-					w.value(newNeighbour + "");
-				}
-				else if(node > newNeighbour){
-					System.out.printf("%s\n", "" + newNeighbour + node);
-					w.name("source");
-					w.value(newNeighbour + "");
+				w.name("target");
+				w.value(newNeighbour + "");
+				// }
+				// else if(node > newNeighbour){
+				// 	// System.out.printf("%s\n", "" + newNeighbour + node);
+				// 	w.name("source");
+				// 	w.value(newNeighbour + "");
 
-					w.name("target");
-					w.value(node + "");
-				}
+				// 	w.name("target");
+				// 	w.value(node + "");
+				// }
 				neighbourMap.get(node).add(newNeighbour);
 				neighbourMap.get(newNeighbour).add(node);
 
@@ -315,20 +341,9 @@ public class World{
 
 		w.close();
 
-		json = s.toString();
+		json = sw.toString();
 
-		// File folder = new File("src/main/resources/worlds");
-		// File file = new File("src/main/resources/nodegraphd3.json");
-		// folder.mkdirs();
-		// file.createNewFile();
-
-		// FileWriter fw = new FileWriter(file);
-
-		// fw.write(json);
-
-		// fw.close();
-
-		System.out.println(json);
+		// System.out.println(json);
 
 		return json;
 	}
