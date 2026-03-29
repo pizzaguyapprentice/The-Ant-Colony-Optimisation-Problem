@@ -4,13 +4,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 
 import aco.algorithims.Ant;
 import aco.algorithims.AntSystem;
 import aco.algorithims.AcoAlgorithim;
 import aco.algorithims.AntResult;
-import aco.world.Edge;
 import aco.world.World;
 
 public class NewMain{
@@ -104,8 +102,6 @@ public class NewMain{
 			if(Main.DEBUG >= 1){
 				System.out.printf("\nStarted Generation %d\n", i);
 			}
-
-			HashMap<String, Double> totalPheromoneMap = new HashMap<>();
 
 			double bestDistance = -1;
 			String bestSolution = "";
