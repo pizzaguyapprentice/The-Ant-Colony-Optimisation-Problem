@@ -4,10 +4,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 
 import aco.algorithims.Ant;
-import aco.world.Edge;
+import aco.algorithims.AntSystem;
+import aco.algorithims.AcoAlgorithim;
+import aco.algorithims.AntResult;
 import aco.world.World;
 
 public class Main{
@@ -73,7 +74,6 @@ public class Main{
 
 
 		Ant ant = new Ant(world.getStartNode());
-		//EAnt ant = new EAnt(world.getStartNode());
 
 		SimpleDateFormat sdf = new SimpleDateFormat("HH-mm-ss-SSS");
 		Date date = new Date(System.currentTimeMillis());
@@ -95,12 +95,13 @@ public class Main{
 		Time time = new Time();
 		time.startTime();
 
+		// Change Hardcode Of AntSystem
+		AcoAlgorithim acoAlgorithm = new AntSystem();
+
 		for(int i = 1; i <= GENS; i++){
 			if(Main.DEBUG >= 1){
 				System.out.printf("\nStarted Generation %d\n", i);
 			}
-
-			HashMap<String, Double> totalPheromoneMap = new HashMap<>();
 
 			double bestDistance = -1;
 			String bestSolution = "";
@@ -110,43 +111,25 @@ public class Main{
 					System.out.printf("\nGen %d: Ant %d\n", i, j);
 				}
 
-				double totalDistance = 0;
-				while(!ant.nextAction()){
-				}
+				AntResult results = acoAlgorithm.runSingleAnt(ant);
 
-				totalDistance = ant.getDistanceTraveled();
+				ant.resetAnt();
+
+				double totalDistance = results.totalDistance;
 
 				if(Main.DEBUG >= 1){
 					System.out.printf("Total Distance: %f\n", totalDistance);
 				}
-				
 
-				HashMap<String, Edge> edgesTraversed = ant.getEdgesTraversed();
-
-				for(String edgeName : edgesTraversed.keySet()){
-					double pheromones = pheromoneRate / totalDistance;
-					if(totalPheromoneMap.get(edgeName) != null){
-						totalPheromoneMap.put(edgeName, totalPheromoneMap.get(edgeName) + pheromones);
-					}
-					else{
-						totalPheromoneMap.put(edgeName, pheromones);
-					}
-				}
 				// System.out.printf("Ant's Solution: %s\n", ant.getSolution());
 
 				if(bestDistance > totalDistance || bestDistance == -1){
 					bestDistance = totalDistance;
-					bestSolution = ant.getSolution();
+					bestSolution = results.solution;
 				}
-
-				ant.resetAnt();
 			}
 
-			world.dissipatePheromone(dissipationRate);
-
-			for(String edgeName : totalPheromoneMap.keySet()){
-				world.updateEdgePheromone(edgeName, totalPheromoneMap.get(edgeName));
-			}
+			acoAlgorithm.updatePheromone(world);
 
 			sp.outputEdgePheromone(world, i);
 
@@ -166,18 +149,4 @@ public class Main{
 		time.elapsedTime();
 		sp.close();
 	}
-
-
-	//! Testing Elitist Ant System methods in Main
-
-	int globalBestDistance = -1;
-	String globablBestSolution = "";
-	HashMap<String,Edge> globalBestEdges = new HashMap<>();
-
-	//
-	public void elitistPheromoneReinforcement(){
-
-	}
-
-
 }
