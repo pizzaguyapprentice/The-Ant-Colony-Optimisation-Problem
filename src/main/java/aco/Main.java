@@ -40,7 +40,7 @@ public class Main{
 				System.out.println();
 				System.out.println("-v\t\t\t\tBe Verbose");
 				System.out.println();
-				System.out.println("-a ALGORITHIM\t\t\t\tRun Aco With Specified Algorithim.\n\t\t\t\tCurrently Supported Options Are AntSystem, ElitistAnt And AntColonySystem\n\t\t\t\tDefault: AntSystem");
+				System.out.println("-a ALGORITHIM\t\t\tRun Aco With Specified Algorithim.\n\t\t\t\tCurrently Supported Options Are AntSystem, ElitistAnt And AntColonySystem\n\t\t\t\tDefault: AntSystem");
 				System.out.println();
 				System.out.println("-h\t\t\t\tPrints Help Information For The Program");
 
