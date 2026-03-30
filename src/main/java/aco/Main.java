@@ -28,6 +28,7 @@ public class Main{
 	// @SuppressWarnings("unused")
 	public static void main(String[] args) throws IOException{
 		File worldFile = null;
+		AcoAlgorithim acoAlgorithm = new AntSystem();
 		for(int i = 0; i < args.length; i++){
 			if(args[i].equals("-h")){
 				System.out.println("Ant Colony Optimisation Program");
@@ -39,6 +40,8 @@ public class Main{
 				System.out.println();
 				System.out.println("-v\t\t\t\tBe Verbose");
 				System.out.println();
+				System.out.println("-a ALGORITHIM\t\t\t\tRun Aco With Specified Algorithim.\n\t\t\t\tCurrently Supported Options Are AntSystem, ElitistAnt And AntColonySystem\n\t\t\t\tDefault: AntSystem");
+				System.out.println();
 				System.out.println("-h\t\t\t\tPrints Help Information For The Program");
 
 				System.exit(0);
@@ -48,6 +51,17 @@ public class Main{
 			}
 			if(args[i].equals("-v")){
 				DEBUG = 1;
+			}
+			if(args[i].equals("-a") && i+1 < args.length){
+				if(args[i+1].equals("AntSystem")){
+					continue;
+				}
+				else if(args[i+1].equals("ElitistAnt")){
+					// acoAlgorithm = new ElitistAnt();
+				}
+				else if(args[i+1].equals("AntColonySystem")){
+					// acoAlgorithm = new AntColonySystem();
+				}
 			}
 		}
 
@@ -72,7 +86,6 @@ public class Main{
 			world = new World(worldFile);
 		}
 
-
 		Ant ant = new Ant(world.getStartNode());
 
 		SimpleDateFormat sdf = new SimpleDateFormat("HH-mm-ss-SSS");
@@ -94,9 +107,6 @@ public class Main{
 		// START measuring time in seconds
 		Time time = new Time();
 		time.startTime();
-
-		// Change Hardcode Of AntSystem
-		AcoAlgorithim acoAlgorithm = new AntSystem();
 
 		for(int i = 1; i <= GENS; i++){
 			if(Main.DEBUG >= 1){
