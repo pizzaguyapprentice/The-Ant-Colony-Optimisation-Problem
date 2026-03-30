@@ -5,10 +5,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import aco.algorithims.Ant;
-import aco.algorithims.AntSystem;
 import aco.algorithims.AcoAlgorithim;
+import aco.algorithims.Ant;
 import aco.algorithims.AntResult;
+import aco.algorithims.AntSystem;
+import aco.algorithims.ElitistAnt;
 import aco.world.World;
 
 public class Main{
@@ -57,7 +58,7 @@ public class Main{
 					continue;
 				}
 				else if(args[i+1].equals("ElitistAnt")){
-					// acoAlgorithm = new ElitistAnt();
+					acoAlgorithm = new ElitistAnt();
 				}
 				else if(args[i+1].equals("AntColonySystem")){
 					// acoAlgorithm = new AntColonySystem();

@@ -81,436 +81,232 @@
   ],
   "links": [
     {
-      "source": "A",
-      "target": "J",
-      "pheromone": 1,
-      "distance": 10
-    },
-    {
-      "source": "A",
-      "target": "Q",
-      "pheromone": 1,
-      "distance": 3
-    },
-    {
-      "source": "B",
-      "target": "C",
-      "pheromone": 1,
-      "distance": 2
-    },
-    {
-      "source": "B",
-      "target": "R",
-      "pheromone": 1,
-      "distance": 18
-    },
-    {
-      "source": "B",
-      "target": "H",
-      "pheromone": 1,
-      "distance": 6
-    },
-    {
-      "source": "C",
-      "target": "D",
-      "pheromone": 1,
-      "distance": 17
-    },
-    {
-      "source": "C",
-      "target": "H",
-      "pheromone": 1,
-      "distance": 3
-    },
-    {
-      "source": "D",
-      "target": "R",
-      "pheromone": 1,
-      "distance": 19
-    },
-    {
-      "source": "D",
+      "source": "L",
       "target": "M",
-      "pheromone": 1,
-      "distance": 12
+      "pheromone": 1.0,
+      "distance": 9.0
     },
     {
-      "source": "D",
-      "target": "J",
-      "pheromone": 1,
-      "distance": 5
+      "source": "T",
+      "target": "U",
+      "pheromone": 1.0,
+      "distance": 5.0
     },
     {
-      "source": "D",
-      "target": "K",
-      "pheromone": 1,
-      "distance": 5
+      "source": "N",
+      "target": "P",
+      "pheromone": 1.0,
+      "distance": 16.0
     },
     {
-      "source": "D",
+      "source": "T",
+      "target": "V",
+      "pheromone": 1.0,
+      "distance": 5.0
+    },
+    {
+      "source": "F",
+      "target": "I",
+      "pheromone": 1.0,
+      "distance": 17.0
+    },
+    {
+      "source": "H",
+      "target": "M",
+      "pheromone": 1.0,
+      "distance": 3.0
+    },
+    {
+      "source": "F",
+      "target": "N",
+      "pheromone": 1.0,
+      "distance": 9.0
+    },
+    {
+      "source": "H",
+      "target": "P",
+      "pheromone": 1.0,
+      "distance": 2.0
+    },
+    {
+      "source": "B",
+      "target": "L",
+      "pheromone": 1.0,
+      "distance": 12.0
+    },
+    {
+      "source": "J",
+      "target": "V",
+      "pheromone": 1.0,
+      "distance": 19.0
+    },
+    {
+      "source": "L",
+      "target": "X",
+      "pheromone": 1.0,
+      "distance": 17.0
+    },
+    {
+      "source": "B",
       "target": "O",
-      "pheromone": 1,
-      "distance": 2
+      "pheromone": 1.0,
+      "distance": 11.0
     },
     {
-      "source": "E",
+      "source": "J",
       "target": "W",
-      "pheromone": 1,
-      "distance": 19
+      "pheromone": 1.0,
+      "distance": 9.0
     },
     {
-      "source": "E",
-      "target": "M",
-      "pheromone": 1,
-      "distance": 12
-    },
-    {
-      "source": "E",
+      "source": "D",
       "target": "R",
-      "pheromone": 1,
-      "distance": 17
+      "pheromone": 1.0,
+      "distance": 12.0
     },
     {
-      "source": "C",
-      "target": "E",
-      "pheromone": 1,
-      "distance": 20
+      "source": "B",
+      "target": "Q",
+      "pheromone": 1.0,
+      "distance": 12.0
+    },
+    {
+      "source": "D",
+      "target": "W",
+      "pheromone": 1.0,
+      "distance": 14.0
+    },
+    {
+      "source": "F",
+      "target": "Z",
+      "pheromone": 1.0,
+      "distance": 10.0
+    },
+    {
+      "source": "D",
+      "target": "Y",
+      "pheromone": 1.0,
+      "distance": 18.0
+    },
+    {
+      "source": "B",
+      "target": "Y",
+      "pheromone": 1.0,
+      "distance": 3.0
+    },
+    {
+      "source": "B",
+      "target": "Z",
+      "pheromone": 1.0,
+      "distance": 16.0
     },
     {
       "source": "E",
       "target": "F",
-      "pheromone": 1,
-      "distance": 10
+      "pheromone": 1.0,
+      "distance": 20.0
     },
     {
-      "source": "F",
-      "target": "G",
-      "pheromone": 1,
-      "distance": 8
-    },
-    {
-      "source": "F",
-      "target": "R",
-      "pheromone": 1,
-      "distance": 6
-    },
-    {
-      "source": "F",
-      "target": "P",
-      "pheromone": 1,
-      "distance": 4
-    },
-    {
-      "source": "G",
-      "target": "R",
-      "pheromone": 1,
-      "distance": 7
-    },
-    {
-      "source": "G",
-      "target": "I",
-      "pheromone": 1,
-      "distance": 12
-    },
-    {
-      "source": "G",
+      "source": "I",
       "target": "K",
-      "pheromone": 1,
-      "distance": 10
-    },
-    {
-      "source": "G",
-      "target": "X",
-      "pheromone": 1,
-      "distance": 11
-    },
-    {
-      "source": "G",
-      "target": "U",
-      "pheromone": 1,
-      "distance": 19
-    },
-    {
-      "source": "H",
-      "target": "R",
-      "pheromone": 1,
-      "distance": 20
-    },
-    {
-      "source": "H",
-      "target": "T",
-      "pheromone": 1,
-      "distance": 12
-    },
-    {
-      "source": "H",
-      "target": "Y",
-      "pheromone": 1,
-      "distance": 8
-    },
-    {
-      "source": "G",
-      "target": "H",
-      "pheromone": 1,
-      "distance": 5
-    },
-    {
-      "source": "I",
-      "target": "U",
-      "pheromone": 1,
-      "distance": 14
-    },
-    {
-      "source": "I",
-      "target": "N",
-      "pheromone": 1,
-      "distance": 6
-    },
-    {
-      "source": "G",
-      "target": "J",
-      "pheromone": 1,
-      "distance": 14
-    },
-    {
-      "source": "H",
-      "target": "J",
-      "pheromone": 1,
-      "distance": 19
-    },
-    {
-      "source": "J",
-      "target": "T",
-      "pheromone": 1,
-      "distance": 10
-    },
-    {
-      "source": "J",
-      "target": "R",
-      "pheromone": 1,
-      "distance": 3
-    },
-    {
-      "source": "J",
-      "target": "L",
-      "pheromone": 1,
-      "distance": 20
-    },
-    {
-      "source": "L",
-      "target": "W",
-      "pheromone": 1,
-      "distance": 16
-    },
-    {
-      "source": "L",
-      "target": "Q",
-      "pheromone": 1,
-      "distance": 15
-    },
-    {
-      "source": "L",
-      "target": "S",
-      "pheromone": 1,
-      "distance": 20
-    },
-    {
-      "source": "K",
-      "target": "M",
-      "pheromone": 1,
-      "distance": 7
-    },
-    {
-      "source": "M",
-      "target": "P",
-      "pheromone": 1,
-      "distance": 3
-    },
-    {
-      "source": "M",
-      "target": "W",
-      "pheromone": 1,
-      "distance": 19
-    },
-    {
-      "source": "N",
-      "target": "U",
-      "pheromone": 1,
-      "distance": 7
-    },
-    {
-      "source": "N",
-      "target": "W",
-      "pheromone": 1,
-      "distance": 9
-    },
-    {
-      "source": "H",
-      "target": "O",
-      "pheromone": 1,
-      "distance": 5
-    },
-    {
-      "source": "O",
-      "target": "Q",
-      "pheromone": 1,
-      "distance": 8
-    },
-    {
-      "source": "O",
-      "target": "R",
-      "pheromone": 1,
-      "distance": 11
-    },
-    {
-      "source": "O",
-      "target": "S",
-      "pheromone": 1,
-      "distance": 8
+      "pheromone": 1.0,
+      "distance": 13.0
     },
     {
       "source": "Q",
-      "target": "Y",
-      "pheromone": 1,
-      "distance": 20
-    },
-    {
-      "source": "K",
-      "target": "Q",
-      "pheromone": 1,
-      "distance": 14
-    },
-    {
-      "source": "Q",
-      "target": "Z",
-      "pheromone": 1,
-      "distance": 3
-    },
-    {
-      "source": "E",
-      "target": "Q",
-      "pheromone": 1,
-      "distance": 13
-    },
-    {
-      "source": "M",
       "target": "S",
-      "pheromone": 1,
-      "distance": 14
-    },
-    {
-      "source": "F",
-      "target": "S",
-      "pheromone": 1,
-      "distance": 10
-    },
-    {
-      "source": "R",
-      "target": "S",
-      "pheromone": 1,
-      "distance": 8
-    },
-    {
-      "source": "M",
-      "target": "T",
-      "pheromone": 1,
-      "distance": 15
-    },
-    {
-      "source": "T",
-      "target": "X",
-      "pheromone": 1,
-      "distance": 4
-    },
-    {
-      "source": "O",
-      "target": "T",
-      "pheromone": 1,
-      "distance": 11
-    },
-    {
-      "source": "P",
-      "target": "T",
-      "pheromone": 1,
-      "distance": 3
-    },
-    {
-      "source": "I",
-      "target": "T",
-      "pheromone": 1,
-      "distance": 11
-    },
-    {
-      "source": "T",
-      "target": "V",
-      "pheromone": 1,
-      "distance": 10
-    },
-    {
-      "source": "I",
-      "target": "V",
-      "pheromone": 1,
-      "distance": 17
-    },
-    {
-      "source": "F",
-      "target": "V",
-      "pheromone": 1,
-      "distance": 8
-    },
-    {
-      "source": "V",
-      "target": "W",
-      "pheromone": 1,
-      "distance": 13
-    },
-    {
-      "source": "X",
-      "target": "Z",
-      "pheromone": 1,
-      "distance": 20
+      "pheromone": 1.0,
+      "distance": 15.0
     },
     {
       "source": "A",
-      "target": "X",
-      "pheromone": 1,
-      "distance": 4
+      "target": "D",
+      "pheromone": 1.0,
+      "distance": 13.0
     },
     {
-      "source": "F",
-      "target": "X",
-      "pheromone": 1,
-      "distance": 11
-    },
-    {
-      "source": "B",
-      "target": "X",
-      "pheromone": 1,
-      "distance": 2
+      "source": "C",
+      "target": "F",
+      "pheromone": 1.0,
+      "distance": 18.0
     },
     {
       "source": "E",
-      "target": "X",
-      "pheromone": 1,
-      "distance": 15
+      "target": "H",
+      "pheromone": 1.0,
+      "distance": 3.0
     },
     {
-      "source": "W",
-      "target": "Y",
-      "pheromone": 1,
-      "distance": 15
+      "source": "C",
+      "target": "G",
+      "pheromone": 1.0,
+      "distance": 2.0
     },
     {
-      "source": "P",
-      "target": "Y",
-      "pheromone": 1,
-      "distance": 11
+      "source": "M",
+      "target": "R",
+      "pheromone": 1.0,
+      "distance": 11.0
     },
     {
-      "source": "Y",
+      "source": "S",
       "target": "Z",
-      "pheromone": 1,
-      "distance": 19
+      "pheromone": 1.0,
+      "distance": 8.0
+    },
+    {
+      "source": "I",
+      "target": "Q",
+      "pheromone": 1.0,
+      "distance": 7.0
+    },
+    {
+      "source": "A",
+      "target": "J",
+      "pheromone": 1.0,
+      "distance": 12.0
+    },
+    {
+      "source": "A",
+      "target": "L",
+      "pheromone": 1.0,
+      "distance": 18.0
+    },
+    {
+      "source": "E",
+      "target": "P",
+      "pheromone": 1.0,
+      "distance": 12.0
+    },
+    {
+      "source": "C",
+      "target": "O",
+      "pheromone": 1.0,
+      "distance": 11.0
+    },
+    {
+      "source": "E",
+      "target": "S",
+      "pheromone": 1.0,
+      "distance": 5.0
+    },
+    {
+      "source": "K",
+      "target": "Y",
+      "pheromone": 1.0,
+      "distance": 4.0
+    },
+    {
+      "source": "G",
+      "target": "X",
+      "pheromone": 1.0,
+      "distance": 7.0
+    },
+    {
+      "source": "C",
+      "target": "U",
+      "pheromone": 1.0,
+      "distance": 2.0
     }
   ]
 }
