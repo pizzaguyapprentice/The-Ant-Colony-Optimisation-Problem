@@ -26,8 +26,10 @@ public class Main{
 	public static final int NUM_ANTS = 100;
 	public static final int GENS = 100;
 
+	public static Process p = null;
+
 	// @SuppressWarnings("unused")
-	public static void main(String[] args) throws IOException{
+	public static void main(String[] args) throws IOException, InterruptedException{
 		File worldFile = null;
 		AcoAlgorithim acoAlgorithm = new AntSystem();
 		boolean runGui = true;
@@ -169,8 +171,14 @@ public class Main{
 		sp.close();
 
 		if(runGui){
+			ProcessBuilder b = new ProcessBuilder("node", "./src/main/js/server.js");
+
+			p = b.start();
+
 			Runnable r = new Visuals();
 			new Thread(r).start();
+
+			p.waitFor();
 		}
 	}
 }

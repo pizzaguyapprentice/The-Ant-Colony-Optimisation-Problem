@@ -6,4 +6,5 @@ open module aco_algorithims{
 	requires com.google.gson;
 	requires javafx.base;
 	requires javafx.web;
+	requires java.base;
 }

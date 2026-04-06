@@ -1,4 +1,6 @@
 package aco;
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.web.WebView;
@@ -24,7 +26,8 @@ public class Visuals extends Application implements Runnable{
 		// fw.close();
 
 		primaryStage.setOnCloseRequest((e)->{
-			System.exit(0);
+			Main.p.destroy();
+			primaryStage.close();
 		});
 
 		webView.getEngine().load("http://127.0.0.1:6767/");
