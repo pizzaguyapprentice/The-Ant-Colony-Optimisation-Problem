@@ -16,7 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
-public class Main extends Application{
+public class Main{
 	// Debug Parameter For Extra Printing
 	public static int DEBUG = 0;
 
@@ -171,32 +171,8 @@ public class Main extends Application{
 		sp.close();
 
 		if(runGui){
-			launch();
+			Runnable r = new Visuals();
+			new Thread(r).start();
 		}
-		System.exit(0);
-	}
-
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		WebView webView = new WebView();
-
-		// File f = new File("html.html");
-		// Scanner fw = new Scanner(f);
-		// String s = "";
-		// while (fw.hasNext()) {
-		// 	s = s + fw.nextLine();
-		// }
-
-		// fw.close();
-
-		primaryStage.setOnCloseRequest((e)->{
-			System.exit(0);
-		});
-
-		webView.getEngine().load("http://127.0.0.1:6767/");
-
-		Scene scene = new Scene(webView);
-		primaryStage.setScene(scene);
-		primaryStage.show();
 	}
 }
