@@ -11,10 +11,6 @@ import aco.algorithims.AntResult;
 import aco.algorithims.AntSystem;
 import aco.algorithims.ElitistAnt;
 import aco.world.World;
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.web.WebView;
-import javafx.stage.Stage;
 
 public class Main{
 	// Debug Parameter For Extra Printing
@@ -64,7 +60,7 @@ public class Main{
 				if(args[i+1].equals("AntSystem")){
 					continue;
 				}
-				else if(args[i+1].equals("ElitistAnt")){
+				else if(args[i+1].equals("ElitistAntSystem")){
 					acoAlgorithm = new ElitistAnt();
 				}
 				else if(args[i+1].equals("AntColonySystem")){
@@ -130,6 +126,7 @@ public class Main{
 			for(int j = 1; j <= NUM_ANTS; j++){
 				if(Main.DEBUG >= 1){
 					System.out.printf("\nGen %d: Ant %d\n", i, j);
+
 				}
 
 				AntResult results = acoAlgorithm.runSingleAnt(ant);
@@ -140,6 +137,7 @@ public class Main{
 
 				if(Main.DEBUG >= 1){
 					System.out.printf("Total Distance: %f\n", totalDistance);
+					System.out.printf("Gen %d Ant's Solution: %s\n", i , results.solution);
 				}
 
 				// System.out.printf("Ant's Solution: %s\n", ant.getSolution());
