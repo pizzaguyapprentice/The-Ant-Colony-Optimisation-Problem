@@ -4,7 +4,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Scanner;
 
 import aco.algorithims.AcoAlgorithim;
 import aco.algorithims.Ant;
@@ -35,6 +34,7 @@ public class Main extends Application{
 	public static void main(String[] args) throws IOException{
 		File worldFile = null;
 		AcoAlgorithim acoAlgorithm = new AntSystem();
+		boolean runGui = true;
 		for(int i = 0; i < args.length; i++){
 			if(args[i].equals("-h")){
 				System.out.println("Ant Colony Optimisation Program");
@@ -47,6 +47,8 @@ public class Main extends Application{
 				System.out.println("-v\t\t\t\tBe Verbose");
 				System.out.println();
 				System.out.println("-a ALGORITHIM\t\t\tRun Aco With Specified Algorithim.\n\t\t\t\tCurrently Supported Options Are AntSystem, ElitistAnt And AntColonySystem\n\t\t\t\tDefault: AntSystem");
+				System.out.println();
+				System.out.println("-n\t\t\t\tDo Not Run The Gui At The End");
 				System.out.println();
 				System.out.println("-h\t\t\t\tPrints Help Information For The Program");
 
@@ -68,6 +70,9 @@ public class Main extends Application{
 				else if(args[i+1].equals("AntColonySystem")){
 					// acoAlgorithm = new AntColonySystem();
 				}
+			}
+			if(args[i].equals("-n")){
+				runGui = false;
 			}
 		}
 
@@ -165,7 +170,10 @@ public class Main extends Application{
 		time.elapsedTime();
 		sp.close();
 
-		launch();
+		if(runGui){
+			launch();
+		}
+		System.exit(0);
 	}
 
 	@Override
