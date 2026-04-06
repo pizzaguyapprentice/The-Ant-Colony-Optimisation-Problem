@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 
 import aco.algorithims.AcoAlgorithim;
 import aco.algorithims.Ant;
@@ -11,8 +12,12 @@ import aco.algorithims.AntResult;
 import aco.algorithims.AntSystem;
 import aco.algorithims.ElitistAnt;
 import aco.world.World;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 
-public class Main{
+public class Main extends Application{
 	// Debug Parameter For Extra Printing
 	public static int DEBUG = 0;
 
@@ -159,5 +164,31 @@ public class Main{
 		}
 		time.elapsedTime();
 		sp.close();
+
+		launch();
+	}
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		WebView webView = new WebView();
+
+		// File f = new File("html.html");
+		// Scanner fw = new Scanner(f);
+		// String s = "";
+		// while (fw.hasNext()) {
+		// 	s = s + fw.nextLine();
+		// }
+
+		// fw.close();
+
+		primaryStage.setOnCloseRequest((e)->{
+			System.exit(0);
+		});
+
+		webView.getEngine().load("http://127.0.0.1:6767/");
+
+		Scene scene = new Scene(webView);
+		primaryStage.setScene(scene);
+		primaryStage.show();
 	}
 }

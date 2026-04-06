@@ -9,7 +9,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.google.gson.FormattingStyle;
+// import com.google.gson.FormattingStyle;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
@@ -158,7 +158,7 @@ public class World{
 		StringWriter s = new StringWriter();
 
 		JsonWriter w = new JsonWriter(s);
-		w.setFormattingStyle(FormattingStyle.PRETTY);
+		// w.setFormattingStyle(FormattingStyle.PRETTY);
 
 		w.beginObject();
 		w.name("nodes");
@@ -229,7 +229,7 @@ public class World{
 		StringWriter sw = new StringWriter();
 
 		JsonWriter w = new JsonWriter(sw);
-		w.setFormattingStyle(FormattingStyle.PRETTY);
+		// w.setFormattingStyle(FormattingStyle.PRETTY);
 
 		w.beginObject();
 		w.name("nodes");
