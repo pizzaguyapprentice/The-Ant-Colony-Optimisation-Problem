@@ -23,7 +23,7 @@ public class Main{
 	public static final double pheromoneRate = 3;
 
 	// Number Of Ants Per Generation
-	public static final int NUM_ANTS = 100;
+	public static final int NUM_ANTS = 10;
 	public static final int GENS = 100;
 
 	public static Process p = null;
