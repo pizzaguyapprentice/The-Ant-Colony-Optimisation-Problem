@@ -36,6 +36,24 @@
             button:hover {
                 background-color: #45a049;
             }
+            .arrow-button {
+                background-color: #2196F3;
+                padding: 10px 15px;
+                font-size: 18px;
+                margin: 0 5px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                min-width: 45px;
+            }
+            .arrow-button:hover {
+                background-color: #0b7dda;
+            }
+            .navigation-group {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
             #iterationInfo {
                 margin-top: 10px;
                 font-weight: bold;
@@ -63,12 +81,10 @@
                 <button onclick="searchIteration()">Go to Iteration</button>
             </div>
             
-            <div class="control-group">
-                <label>View Every 10 Iterations:</label>
-                <select id="everyTenSelect" onchange="selectEveryTen()">
-                    <option value="">Custom</option>
-                </select>
+            <div class="control-group navigation-group">
+                <button class="arrow-button" onclick="previousIteration()">← Previous</button>
                 <span id="iterationInfo"></span>
+                <button class="arrow-button" onclick="nextIteration()">Next →</button>
             </div>
         </div>
 
