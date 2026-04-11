@@ -68,6 +68,10 @@ public class Main{
 				else if(args[i+1].equals("AntColonySystem")){
 					// acoAlgorithm = new AntColonySystem();
 				}
+				else{
+					System.out.printf("No Algorithim %s Found. Check -h For A List Of Supported Algorithims\n", args[i+1]);
+					System.exit(1);
+				}
 			}
 			if(args[i].equals("-n")){
 				runGui = false;
