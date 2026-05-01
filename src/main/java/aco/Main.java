@@ -7,6 +7,7 @@ import java.util.Date;
 
 import aco.algorithims.AcoAlgorithim;
 import aco.algorithims.Ant;
+import aco.algorithims.AntColonySystem;
 import aco.algorithims.AntResult;
 import aco.algorithims.AntSystem;
 import aco.algorithims.ElitistAnt;
@@ -20,7 +21,8 @@ public class Main{
 	public static final double distanceImportance = 0.1;
 	public static final double pheromoneImportance = 1.8;
 	public static final double dissipationRate = 0.15;
-	public static final double pheromoneRate = 3;
+	public static double pheromoneRate = 3;
+	public static final double localDissipationRate = 0.1;
 
 	// Number Of Ants Per Generation
 	public static final int NUM_ANTS = 100;
@@ -66,7 +68,8 @@ public class Main{
 					acoAlgorithm = new ElitistAnt();
 				}
 				else if(args[i+1].equals("AntColonySystem")){
-					// acoAlgorithm = new AntColonySystem();
+					acoAlgorithm = new AntColonySystem();
+					pheromoneRate = pheromoneRate + 197;
 				}
 				else{
 					System.out.printf("No Algorithim %s Found. Check -h For A List Of Supported Algorithims\n", args[i+1]);

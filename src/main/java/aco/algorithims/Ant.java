@@ -16,6 +16,7 @@ public class Ant {
 	private HashMap<String, Edge> edgesTraversed = new HashMap<>();
 	private String solution = "";
 	private double distanceTraveled = 0;
+	private Edge lastEdge = null;
 
     public double getDistanceTraveled() {
 		return distanceTraveled;
@@ -72,6 +73,11 @@ public class Ant {
 		lastPosition = null;
 		collectedFood = false;
 		distanceTraveled = 0;
+		lastEdge = null;
+	}
+
+	public Edge getLastEdge(){
+		return lastEdge;
 	}
 
 	public AntResult getResults(){
@@ -146,6 +152,8 @@ public class Ant {
 				position = possibleNeighbours[i].getOtherNode(position);
 
 				solution = solution + position.getName();
+
+				lastEdge = possibleNeighbours[i];
 
 				if(position instanceof FoodNode){
 					collectedFood = true;
