@@ -20,12 +20,12 @@ public class Main{
 	// Global Parameters For ACO Problem
 	public static final double distanceImportance = 0.1;
 	public static final double pheromoneImportance = 1.8;
-	public static final double dissipationRate = 0.15;
+	public static double dissipationRate = 0.15;
 	public static double pheromoneRate = 3;
-	public static final double localDissipationRate = 0.1;
+	public static final double localDissipationRate = 0.0002;
 
 	// Number Of Ants Per Generation
-	public static final int NUM_ANTS = 100;
+	public static int NUM_ANTS = 100;
 	public static final int GENS = 100;
 
 	public static Process p = null;
@@ -69,7 +69,9 @@ public class Main{
 				}
 				else if(args[i+1].equals("AntColonySystem")){
 					acoAlgorithm = new AntColonySystem();
-					pheromoneRate = pheromoneRate + 197;
+					pheromoneRate = pheromoneRate + 100;
+					dissipationRate = 0.99;
+					NUM_ANTS = 50;
 				}
 				else{
 					System.out.printf("No Algorithim %s Found. Check -h For A List Of Supported Algorithims\n", args[i+1]);

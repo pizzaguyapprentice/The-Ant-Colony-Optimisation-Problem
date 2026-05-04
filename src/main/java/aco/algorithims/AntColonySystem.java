@@ -19,12 +19,12 @@ public class AntColonySystem implements AcoAlgorithim{
 		while(!ant.nextAction()){
 			Edge edge = ant.getLastEdge();
 			edge.dissipatePheromone(1 - Main.localDissipationRate);
-			edge.addPheromone((Main.dissipationRate * var));
+			edge.addPheromone((Main.localDissipationRate * var));
 		}
 
 		Edge edge = ant.getLastEdge();
 		edge.dissipatePheromone(1 - Main.localDissipationRate);
-		edge.addPheromone((Main.dissipationRate * var));
+		edge.addPheromone((Main.localDissipationRate * var));
 
 		AntResult antResult = ant.getResults();
 
