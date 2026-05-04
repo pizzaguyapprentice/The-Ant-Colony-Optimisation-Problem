@@ -5,15 +5,26 @@
         <title>D3 Node Graph</title>
         <script src="https://d3js.org/d3.v7.min.js"></script>
         <style>
+            * {
+                box-sizing: border-box;
+            }
+            html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
             body {
                 font-family: Arial, sans-serif;
-                margin: 20px;
+                display: flex;
+                flex-direction: column;
             }
             .controls {
-                margin-bottom: 20px;
+                margin: 20px;
                 padding: 15px;
                 background-color: #f0f0f0;
                 border-radius: 5px;
+                flex-shrink: 0;
             }
             .control-group {
                 margin-bottom: 10px;
@@ -59,6 +70,35 @@
                 font-weight: bold;
                 color: #333;
             }
+            .svg-container {
+                flex: 1;
+                overflow: auto;
+                margin: 20px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                background-color: #222;
+            }
+            #debug-panel {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                background-color: rgba(0, 0, 0, 0.9);
+                color: #0f0;
+                padding: 10px;
+                border: 2px solid #0f0;
+                border-radius: 5px;
+                font-family: monospace;
+                font-size: 11px;
+                max-width: 300px;
+                max-height: 150px;
+                overflow-y: auto;
+                z-index: 9999;
+            }
+            svg {
+                width: 100%;
+                height: 100%;
+                display: block;
+            }
         </style>
     </head>
 
@@ -88,7 +128,9 @@
             </div>
         </div>
 
-        <svg width="1500" height="1500"></svg>
+        <div class="svg-container">
+            <svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 1500 1500"></svg>
+        </div>
         <script src="index.js"></script>
     </body>
 </html>

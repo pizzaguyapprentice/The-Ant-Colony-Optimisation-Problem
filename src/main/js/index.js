@@ -1,9 +1,20 @@
-var svg = d3.select("svg")
-    .attr("width", 1000)
-    .attr("height", 1000);
+
+const viewBoxWidth = 1500;
+const viewBoxHeight = 1500;
+
+var svg = d3.select("svg");
+
+svg.append("rect")
+    .attr("width", viewBoxWidth)
+    .attr("height", viewBoxHeight)
+    .attr("fill", "#222"); 
+
+
+const margin = { top: 80, right: 80, bottom: 80, left: 80 };
+const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
     
-var width = +svg.attr("width");
-var height = +svg.attr("height");
+var width = viewBoxWidth - margin.left - margin.right;
+var height = viewBoxHeight - margin.top - margin.bottom;
 
 // Global state
 var originalGraph = null; // Store the original full graph
@@ -44,6 +55,21 @@ function nextIteration() {
         document.getElementById("iterationSearch").value = currentIteration;
     }
 }
+
+
+window.addEventListener("keydown", (event) => {
+    const key = event.key.toLowerCase();
+
+    if (key === "a") {
+        event.preventDefault();
+        previousIteration();
+    } else if (key === "d") {
+        event.preventDefault();
+        nextIteration();
+    }
+});
+
+
 
 // Load both the base graph and iteration data
 Promise.all([
@@ -133,7 +159,7 @@ function parseIterationData(text, graph) {
     }
     
     console.log("Iteration data loaded:", Object.keys(iterationData).length, "iterations");
-    console.log("Sample iteration 1:", iterationData[1]);
+    console.log("Sample iteration 1:", iterationData[0]);
 }
 
 function getEdgeKey(link) {
@@ -215,6 +241,8 @@ function filterAndRedrawGraph() {
     
     baseGraph = filteredGraph;
     updateMaxPheromone();
+
+   
 }
 
 function selectOutputFile() {
@@ -255,11 +283,11 @@ function selectOutputFile() {
             // Parse the new file
             parseIterationData(iterationText, originalGraph);
             console.log("File loaded successfully, iterations:", Object.keys(iterationData).length);
-            console.log("Sample iteration data:", iterationData[1]);
+            console.log("Sample iteration data:", iterationData[0]);
             console.log("Available iterations:", Object.keys(iterationData).slice(0, 10));
             
             // Check if iteration 1 has data in the new file
-            if (!iterationData[1] || Object.keys(iterationData[1]).length === 0) {
+            if (!iterationData[0] || Object.keys(iterationData[0]).length === 0) {
                 console.warn("WARNING: Iteration 1 has no pheromone data in new file!");
                 // Find the first iteration that has data
                 const availableIterations = Object.keys(iterationData).map(Number).sort((a, b) => a - b);
@@ -282,7 +310,7 @@ function selectOutputFile() {
             document.getElementById("iterationInfo").textContent = `Showing iteration ${currentIteration}`;
             
             // Completely redraw the graph with filtered data
-            svg.selectAll("*").remove(); // Clear the entire SVG
+            g.selectAll("*").remove(); // Clear only the group contents, not the SVG background
             createGraph(baseGraph);
             
             // Force update the visualization with the new data
@@ -351,16 +379,16 @@ function createGraph(graph) {
             "link",
             d3.forceLink(graph.links)
                 .id(d => d.name)
-                .distance(d => d.distance * 10)
+                .distance(d => d.distance * 30)
         )
-        .force("charge", d3.forceManyBody().strength(-400))
+        .force("charge", d3.forceManyBody().strength(-600))
         .force("center", d3.forceCenter(width / 2, height / 2))
         .on("tick", ticked);
     
     // Reheat the simulation (restart the cooling process)
     simulation.alpha(1).restart();
 
-    link = svg
+    link = g
         .append("g")
         .selectAll("line")
         .data(graph.links)
@@ -369,29 +397,29 @@ function createGraph(graph) {
         .attr("stroke-width", d => calculateLineWidth(d))
         .style("stroke", d => calculateLineColor(d));
 
-    node = svg
+    node = g
         .append("g")
         .selectAll("circle")
         .data(graph.nodes)
         .enter()
         .append("circle")
-        .attr("r", 16)
+        .attr("r", 30)
         .attr("fill", d => getNodeColor(d.name));
 
-    nodeLabels = svg
+    nodeLabels = g
         .append("g")
         .selectAll("text")
         .data(graph.nodes)
         .enter()
         .append("text")
-        .attr("font-size", 12)
+        .attr("font-size", 20)
         .attr("fill", "white")
         .attr("text-anchor", "middle")
         .attr("font-weight", "bold")
-        .attr("dy", 4)
+        .attr("dy", 6)
         .text(d => d.name);
 
-    linkLabels = svg
+    linkLabels = g
         .append("g")
         .selectAll("g")
         .data(graph.links)
@@ -400,19 +428,19 @@ function createGraph(graph) {
 
     var pheromoneLabel = linkLabels
         .append("text")
-        .attr("font-size", 11)
-        .attr("fill", "purple")
+        .attr("font-size",20)
+        .attr("fill", "yellow")
         .attr("text-anchor", "middle")
-        .attr("dy", "-5")
+        .attr("dy", "-7")
         .attr("class", "pheromone-label")
         .text(d => getPheromoneForIteration(d).toFixed(2));
 
     var distanceLabel = linkLabels
         .append("text")
-        .attr("font-size", 11)
-        .attr("fill", "green")
+        .attr("font-size",20)
+        .attr("fill", "cyan")
         .attr("text-anchor", "middle")
-        .attr("dy", "10")
+        .attr("dy", "14")
         .text(d => d.distance);
 
     function ticked() {
@@ -423,8 +451,8 @@ function createGraph(graph) {
             .attr("y2", d => d.target.y);
 
         node
-            .attr("cx", d => d.x = Math.max(8, Math.min(width - 8, d.x)))
-            .attr("cy", d => d.y = Math.max(8, Math.min(height - 8, d.y)));
+            .attr("cx", d => d.x = Math.max(24, Math.min(width - 24, d.x)))
+            .attr("cy", d => d.y = Math.max(24, Math.min(height - 24, d.y)));
 
         linkLabels
             .attr("transform", d => {
