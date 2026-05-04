@@ -1,0 +1,6 @@
+The Importance Of Distance Is 0.1
+The Importance Of Pheromone Is 1.8
+The Dissapation Rate Is 0.15
+The Pheromone Rate Is 3
+The Number Of Ants Is 50
+The Number Of Generations 100
