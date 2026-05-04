@@ -37,18 +37,10 @@ public class Visuals extends Application implements Runnable{
 
 		Scene scene = new Scene(webView);
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-			if (event.getCode() == KeyCode.COMMA) {
+			if (event.getCode() == KeyCode.COMMA || event.getCode( ) == KeyCode.A || event.getCode( ) == KeyCode.LEFT) {
 				event.consume();
 				webView.getEngine().executeScript("previousIteration()");
-			} else if (event.getCode() == KeyCode.PERIOD) {
-				event.consume();
-				webView.getEngine().executeScript("nextIteration()");
-			}
-			else if (event.getCode( ) == KeyCode.A){
-				event.consume();
-				webView.getEngine().executeScript("previousIteration()");
-			}
-			 else if (event.getCode() == KeyCode.D){
+			} else if (event.getCode() == KeyCode.PERIOD || event.getCode() == KeyCode.D || event.getCode( ) == KeyCode.RIGHT) {
 				event.consume();
 				webView.getEngine().executeScript("nextIteration()");
 			}
