@@ -2,6 +2,7 @@ package aco.algorithims;
 
 import java.io.FileNotFoundException;
 
+import aco.world.HomeNode;
 import aco.world.World;
 
 /*
@@ -24,4 +25,6 @@ public interface AcoAlgorithim{
 	public void updatePheromone(World world);
 
 	public AntResult runSingleAnt(Ant ant) throws FileNotFoundException;
+
+	public Ant getAnt(HomeNode homenode);
 }

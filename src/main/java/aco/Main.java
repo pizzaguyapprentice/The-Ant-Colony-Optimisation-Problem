@@ -23,6 +23,7 @@ public class Main{
 	public static double dissipationRate = 0.15;
 	public static double pheromoneRate = 3;
 	public static final double localDissipationRate = 0.0002;
+	public static final double explorationThreashold = 0.9;
 
 	// Number Of Ants Per Generation
 	public static int NUM_ANTS = 100;
@@ -104,7 +105,7 @@ public class Main{
 			world = new World(worldFile);
 		}
 
-		Ant ant = new Ant(world.getStartNode());
+		Ant ant = acoAlgorithm.getAnt(world.getStartNode());
 
 		SimpleDateFormat sdf = new SimpleDateFormat("HH-mm-ss-SSS");
 		Date date = new Date(System.currentTimeMillis());
