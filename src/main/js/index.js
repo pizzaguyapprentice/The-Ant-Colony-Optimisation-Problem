@@ -16,8 +16,8 @@ const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.t
 var width = viewBoxWidth - margin.left - margin.right;
 var height = viewBoxHeight - margin.top - margin.bottom;
 
-// Global state
-var originalGraph = null; // Store the original full graph
+
+var originalGraph = null; 
 var baseGraph = null;
 var iterationData = {};
 var currentIteration = 1;
@@ -27,15 +27,15 @@ var node = null;
 var nodeLabels = null;
 var linkLabels = null;
 var currentOutputFile = null;
-var maxPheromone = 1; // Track max pheromone for automatic scaling
+var maxPheromone = 1; 
 var minPheromone = 0;
 
-// Create color scale for pheromone levels
+
 var colorScale = d3.scaleLinear()
     .domain([0, 0.5, 1])
     .range(["blue", "cyan", "red"]);
 
-// Navigation functions for previous/next iteration
+
 function previousIteration() {
     if (currentIteration > 1) {
         currentIteration--;
@@ -71,7 +71,7 @@ window.addEventListener("keydown", (event) => {
 
 
 
-// Load both the base graph and iteration data
+
 Promise.all([
     d3.json("resources/nodegraphd3.json"),
     d3.text("resources/output.txt").catch(() => null) // Handle missing file gracefully
@@ -81,7 +81,7 @@ Promise.all([
     originalGraph = graph; // Store the original full graph
     baseGraph = graph;
     
-    // Parse iteration data if available
+   
     if (iterationText) {
         parseIterationData(iterationText, graph);
         filterAndRedrawGraph();
@@ -89,7 +89,7 @@ Promise.all([
     
     createGraph(baseGraph);
     
-    // Load available output files after graph is created
+    
     fetch("/api/output-files")
         .then(res => res.json())
         .then(files => populateFileSelect(files))
@@ -99,7 +99,7 @@ Promise.all([
 function parseIterationData(text, graph) {
     const lines = text.split('\n');
     
-    // First pass: collect all unique edges actually in the file
+    
     const edgesInFile = new Set();
     let maxIterationInFile = 0;
     let dataPointsFound = 0;
@@ -130,7 +130,7 @@ function parseIterationData(text, graph) {
         console.warn("WARNING: No data points found in file!");
     }
     
-    // Initialize iteration data ONLY for iterations that will have data
+    
     for (let i = 1; i <= maxIterationInFile; i++) {
         iterationData[i] = {};
         edgesInFile.forEach(edgeKey => {
@@ -138,7 +138,7 @@ function parseIterationData(text, graph) {
         });
     }
     
-    // Parse the output file and populate with actual values
+    
     for (let i = 1; i < lines.length; i++) {
         const line = lines[i].trim();
         if (!line) continue;
@@ -165,13 +165,13 @@ function parseIterationData(text, graph) {
 function getEdgeKey(link) {
     const source = typeof link.source === 'object' ? link.source.name : link.source;
     const target = typeof link.target === 'object' ? link.target.name : link.target;
-    // Format: "ab" (lowercase, no dash) to match CSV format
+    
     return `${source.toLowerCase()}${target.toLowerCase()}`;
 }
 
 function populateFileSelect(files) {
     const select = document.getElementById("fileSelect");
-    select.innerHTML = ""; // Clear existing options
+    select.innerHTML = ""; 
     
     files.forEach((file, index) => {
         const option = document.createElement("option");
@@ -187,7 +187,7 @@ function populateFileSelect(files) {
 }
 
 function filterAndRedrawGraph() {
-    // Extract unique nodes AND edges from the parsed data using the iteration file
+    
     const usedNodeNames = new Set();
     const usedEdges = new Set();
     
@@ -195,7 +195,7 @@ function filterAndRedrawGraph() {
         Object.keys(iteration).forEach(edgeKey => {
             usedEdges.add(edgeKey); // Store the edge key directly
             
-            // Extract node names from edge key (e.g., "bf" -> "b", "f")
+            
             for (let i = 0; i < edgeKey.length; i++) {
                 usedNodeNames.add(edgeKey[i].toUpperCase());
             }
@@ -205,19 +205,18 @@ function filterAndRedrawGraph() {
     console.log("Used nodes:", Array.from(usedNodeNames).sort());
     console.log("Used edges from file:", Array.from(usedEdges).sort());
     
-    // Create fresh node objects from the original graph, filtered to only used nodes
+    
     const filteredNodes = originalGraph.nodes
         .filter(n => usedNodeNames.has(n.name))
         .map(n => ({ name: n.name }));
     
-    // Create edges from the iteration file data, not from originalGraph.links
-    // This ensures we use the exact edges that are in the output file
+   
     const filteredLinks = Array.from(usedEdges).map(edgeKey => {
-        // Parse edge key: "bf" -> source="B", target="F"
+        
         const source = edgeKey[0].toUpperCase();
         const target = edgeKey.substring(1).toUpperCase();
         
-        // Find distance from original graph if it exists
+        
         const originalLink = originalGraph.links.find(l => 
             (l.source === source && l.target === target) ||
             (l.source === target && l.target === source)
@@ -254,7 +253,7 @@ function selectOutputFile() {
     currentOutputFile = fileName;
     document.getElementById("fileInfo").textContent = "Loading...";
     
-    // Load the selected file using fetch
+    
     fetch(`/api/output-files/${fileName}`)
         .then(response => {
             if (!response.ok) throw new Error("Failed to fetch file");
@@ -268,39 +267,38 @@ function selectOutputFile() {
             
             console.log("Raw file content:", iterationText.substring(0, 200));
             
-            // Stop the old simulation before clearing
+           
             if (simulation) {
                 simulation.stop();
             }
             
-            // Clear and reset iteration data COMPLETELY
+           
             iterationData = {};
             currentIteration = 1;
             window.debugLookups = 0; // Reset debug counter
             
             console.log("Cleared iteration data, currentIteration set to 1");
             
-            // Parse the new file
+            
             parseIterationData(iterationText, originalGraph);
             console.log("File loaded successfully, iterations:", Object.keys(iterationData).length);
             console.log("Sample iteration data:", iterationData[0]);
             console.log("Available iterations:", Object.keys(iterationData).slice(0, 10));
             
-            // Check if iteration 1 has data in the new file
+            
             if (!iterationData[0] || Object.keys(iterationData[0]).length === 0) {
                 console.warn("WARNING: Iteration 1 has no pheromone data in new file!");
-                // Find the first iteration that has data
+                
                 const availableIterations = Object.keys(iterationData).map(Number).sort((a, b) => a - b);
                 if (availableIterations.length > 0) {
                     currentIteration = availableIterations[0];
                     console.log("Setting currentIteration to first available:", currentIteration);
                 }
             }
-            
-            // Filter and redraw using the original graph
+          
             filterAndRedrawGraph();
             
-            // Reset UI
+          
             document.getElementById("iterationSearch").value = "";
             
             const edgeCount = baseGraph.links.length;
@@ -310,7 +308,7 @@ function selectOutputFile() {
             document.getElementById("iterationInfo").textContent = `Showing iteration ${currentIteration}`;
             
             // Completely redraw the graph with filtered data
-            g.selectAll("*").remove(); // Clear only the group contents, not the SVG background
+            g.selectAll("*").remove(); 
             createGraph(baseGraph);
             
             // Force update the visualization with the new data
@@ -367,7 +365,7 @@ function updateScale() {
 }
 
 function createGraph(graph) {
-    // Initialize nodes with random positions within the SVG bounds
+   
     graph.nodes.forEach(node => {
         node.x = Math.random() * width;
         node.y = Math.random() * height;
@@ -385,7 +383,7 @@ function createGraph(graph) {
         .force("center", d3.forceCenter(width / 2, height / 2))
         .on("tick", ticked);
     
-    // Reheat the simulation (restart the cooling process)
+    
     simulation.alpha(1).restart();
 
     link = g
@@ -474,7 +472,7 @@ function getPheromoneForIteration(linkData) {
     const edgeKey = getEdgeKey(linkData);
     const pheromone = iterationData[currentIteration][edgeKey];
     
-    // Debug first few lookups
+    
     if (!window.debugLookups) window.debugLookups = 0;
     if (window.debugLookups < 3) {
         const availableKeys = Object.keys(iterationData[currentIteration] || {});
@@ -488,7 +486,7 @@ function getPheromoneForIteration(linkData) {
 
 function calculateLineWidth(linkData) {
     const pheromone = getPheromoneForIteration(linkData);
-    // Auto-scale width based on max pheromone
+    
     if (maxPheromone === 0) return 1;
     const normalizedWidth = (pheromone / maxPheromone) * 15 + 1;
     return Math.max(1, normalizedWidth);
@@ -497,7 +495,7 @@ function calculateLineWidth(linkData) {
 function calculateLineColor(linkData) {
     const pheromone = getPheromoneForIteration(linkData);
     if (pheromone === 1) return "#cccccc";
-    // Normalize pheromone to 0-1 scale
+    
     if (maxPheromone === 0) return "blue";
     const normalized = pheromone / maxPheromone;
     return colorScale(normalized);
@@ -505,7 +503,7 @@ function calculateLineColor(linkData) {
 
 
 function updateMaxPheromone() {
-    // Calculate min and max pheromone across all iterations
+   
     let max = 0;
     let min = Infinity;
     Object.values(iterationData).forEach(iteration => {
