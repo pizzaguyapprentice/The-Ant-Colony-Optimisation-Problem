@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import aco.Main;
 import aco.world.Edge;
+import aco.world.HomeNode;
 import aco.world.World;
 
 public class AntColonySystem implements AcoAlgorithim{
@@ -57,5 +58,10 @@ public class AntColonySystem implements AcoAlgorithim{
 		bestDistance= -1;
 
 		totalPheromoneMap.clear();
+	}
+
+	@Override
+	public Ant getAnt(HomeNode homenode) {
+		return new ACSAnt(homenode);
 	}
 }

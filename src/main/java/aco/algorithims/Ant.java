@@ -10,13 +10,13 @@ import aco.world.HomeNode;
 import aco.world.Node;
 
 public class Ant {
-    private Node position;
-    private Node lastPosition = null;
-    private boolean collectedFood = false;
-	private HashMap<String, Edge> edgesTraversed = new HashMap<>();
-	private String solution = "";
-	private double distanceTraveled = 0;
-	private Edge lastEdge = null;
+    protected Node position;
+    protected Node lastPosition = null;
+    protected boolean collectedFood = false;
+	protected HashMap<String, Edge> edgesTraversed = new HashMap<>();
+	protected String solution = "";
+	protected double distanceTraveled = 0;
+	protected Edge lastEdge = null;
 
     public double getDistanceTraveled() {
 		return distanceTraveled;
@@ -103,7 +103,7 @@ public class Ant {
     }
 
     // Using the formula in the ACO problem to calculate the heuristic and visibility.
-    private double setVisibility(Edge[] neighbours, double[] visibilityArray){
+    protected double setVisibility(Edge[] neighbours, double[] visibilityArray){
 		double visibilityTotal = 0;
 
 		for(int i = 0; i < neighbours.length; i++){
@@ -122,7 +122,7 @@ public class Ant {
     }
 
     // Finally the visibility is turned into a probability, determining how likely each path is to be selected
-    private void calculateProbablePaths(double[] visibilityArray, double visibilityTotal, double[] pathProbabilityArray){
+    protected void calculateProbablePaths(double[] visibilityArray, double visibilityTotal, double[] pathProbabilityArray){
 		for (int i = 0; i < visibilityArray.length; i++) {
 			double visibility = visibilityArray[i];
 			double probability = visibility/visibilityTotal;
@@ -132,7 +132,7 @@ public class Ant {
     }
 
     // Generate random number, check where it lands and traverse it.
-	private Boolean chooseNextPath(Edge[] possibleNeighbours, double[] pathProbabilityArray){
+	protected Boolean chooseNextPath(Edge[] possibleNeighbours, double[] pathProbabilityArray){
 		double randomNumber = new SecureRandom().nextDouble();
 		double incrementedDecision = 0;
 
