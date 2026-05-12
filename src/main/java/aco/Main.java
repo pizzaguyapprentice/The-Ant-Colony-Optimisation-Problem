@@ -25,7 +25,7 @@ public class Main{
 	public static final double localDissipationRate = 0.0002;
 
 	// Number Of Ants Per Generation
-	public static int NUM_ANTS = 100;
+	public static int NUM_ANTS = 50;
 	public static final int GENS = 100;
 
 	public static Process p = null;
