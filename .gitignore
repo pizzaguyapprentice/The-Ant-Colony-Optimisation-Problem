@@ -1,6 +1,6 @@
 target/
 .vscode/
 .idea/
-*.txt
-results/
+# *.txt
+# results/
 world.json
