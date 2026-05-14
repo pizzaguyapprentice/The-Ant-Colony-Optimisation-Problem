@@ -13,19 +13,19 @@ public class AntColonySystem implements AcoAlgorithim{
 	HashMap<String, Double> totalPheromoneMap = new HashMap<>();
 
 	// TODO: Remove Hardcode Value Of Starter Pheromone
-	double var = 1;
+	double starterPheromones = 1;
 
 	@Override
 	public AntResult runSingleAnt(Ant ant) throws FileNotFoundException{
 		while(!ant.nextAction()){
 			Edge edge = ant.getLastEdge();
 			edge.dissipatePheromone(1 - Main.localDissipationRate);
-			edge.addPheromone((Main.localDissipationRate * var));
+			edge.addPheromone((Main.localDissipationRate * starterPheromones));
 		}
 
 		Edge edge = ant.getLastEdge();
 		edge.dissipatePheromone(1 - Main.localDissipationRate);
-		edge.addPheromone((Main.localDissipationRate * var));
+		edge.addPheromone((Main.localDissipationRate * starterPheromones));
 
 		AntResult antResult = ant.getResults();
 
