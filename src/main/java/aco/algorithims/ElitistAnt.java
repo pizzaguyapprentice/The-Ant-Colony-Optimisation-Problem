@@ -82,11 +82,11 @@ public class ElitistAnt implements AcoAlgorithim{
 		System.out.println("=== updatePheromone called ===");
 		try {
 			world.dissipatePheromone(Main.dissipationRate);
-			
+
+			updateElitistPheromone();
 			for(String edgeName : totalPheromoneMap.keySet()){
 				world.updateEdgePheromone(edgeName, totalPheromoneMap.get(edgeName));
 			}
-			updateElitistPheromone();
 			totalPheromoneMap.clear();
     	} 
 		catch(Exception e) {
